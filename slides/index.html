@@ -1,0 +1,751 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="author" content="vinícius campitelli">
+        <title>Implementando microsserviços com Kubernetes na prática</title>
+        <link rel="stylesheet" href="reveal.js/dist/reset.css">
+        <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github-dark.min.css">
+        <link rel="stylesheet" href="reveal.js/dist/theme/white.css">
+        <link rel="stylesheet" href="css/app.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Implementando microsserviços com Kubernetes na prática</h1>
+                </section>
+
+                <section> <!-- Sobre mim -->
+                    <section data-auto-animate>
+                        <h2 class="text-center">Sobre mim</h2>
+                        <div class="d-flex justify-around">
+                            <div class="text-center">
+                                <img src="img/vinicius.jpg" alt="vinícius campitelli" id="profile-pic">
+                                <h4>Vinícius Campitelli</h4>
+                            </div>
+                            <ul>
+                                <li>
+                                    Membro do <a href="https://phpsp.org.br" target="_blank" rel="noopener">PHPSP</a>
+                                </li>
+                                <li>
+                                    Engenheiro na
+                                    <a href="https://ottera.tv" target="_blank" rel="noopener">OTTera</a>
+                                </li>
+                                <li>Entusiasta em cibersegurança</li>
+                                <li>Desenvolvedor há mais de 10 anos</li>
+                            </ul>
+                        </div>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="text-center">Sobre mim</h2>
+                        <div class="d-flex one-third-columns about-me-links">
+                            <div>
+                                <svg role="img" width="64px" height="64px" viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                                          fill="#1e2640" opacity="0.9"></path>
+                                </svg>
+                                <p>Slides &amp; GitHub</p>
+                                <a href="https://github.com/vcampitelli" target="_blank" rel="noopener">
+                                    vcampitelli
+                                </a>
+                            </div>
+                            <div>
+                                <svg role="img" width="64px" height="64px" viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
+                                          fill="#1e2640" opacity="0.9"></path>
+                                </svg>
+                                <p>Twitter</p>
+                                <a href="https://twitter.com/vcampitelli" target="_blank" rel="noopener">
+                                    vcampitelli
+                                </a>
+                            </div>
+                            <div>
+                                <svg height="64" viewBox="0 0 74 74" width="64" xmlns="http://www.w3.org/2000/svg">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z"
+                                              fill="#1e2640" opacity="0.9"/>
+                                        <path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
+                                              fill="#fff"/>
+                                    </g>
+                                </svg>
+                                <p>LinkedIn</p>
+                                <a href="https://linkedin.com/in/viniciuscampitelli" target="_blank" rel="noopener">
+                                    Vinícius Campitelli
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </section> <!-- Sobre mim -->
+
+                <section> <!-- Mãos na massa -->
+                    <h1 class="h2">Mãos na massa</h1>
+                    <p>Aara acompanhar o workshop e executar os scripts localmente, siga os passos a seguir:</p>
+                    <ol>
+                        <li>
+                            Clone esse repositório em
+                            <pre><code class="sh" data-trim>
+                                git clone --recurse-submodules \
+                                  git@github.com:vcampitelli/workshop-kubernetes.git
+                            </code></pre>
+                        </li>
+                        <li>
+                            Acesse os slides abrindo <code>slides/index.html</code> em seu navegador
+                        </li>
+                        <li>
+                            Instale o docker em
+                            <a href="https://docs.docker.com/get-docker/" target="_blank" rel="noopener">
+                                docs.docker.com/get-docker
+                            </a>
+                        </li>
+                        <li>
+                            Instale o minikube em
+                            <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener">
+                                minikube.sigs.k8s.io
+                            </a>
+                        </li>
+                        <li>
+                            Entre na pasta <code>scripts/k8s</code> e execute:
+                            <pre><code class="sh" data-trim>
+                                minikube start
+                            </code></pre>
+                        </li>
+                    </ol>
+                </section> <!-- Mãos na massa -->
+
+                <section> <!-- Introdução: microsserviços -->
+                    <section>
+                        <h2>Microsserviços</h2>
+                        <blockquote class="smaller">
+                            A variant of the soa structural style – arranges an application as a collection of
+                            loosely-coupled services. In a microservices architecture, services are fine-grained and the
+                            protocols are lightweight.
+                        </blockquote>
+                        <a href="https://en.wikipedia.org/wiki/microservices" class="small">Wikipedia</a>
+                    </section>
+                    <section>
+                        <h2>Microsserviços</h2>
+                        <img src="https://www.embarcados.com.br/wp-content/uploads/2021/03/68747470733a2f2f7777772e78656e6f6e737461636b2e636f6d2f696d616765732f696e7369676874732f78656e6f6e737461636b2d776861742d6172652d6d6963726f73657276696365732e706e671.png">
+                    </section>
+                </section> <!-- Introdução: microsserviços -->
+
+                <section> <!-- Introdução: Containers -->
+                    <section data-auto-animate>
+                        <h2>Containers</h2>
+                        <blockquote class="smaller">
+                            Containers are an abstraction at the app layer that packages code and dependencies together. 
+                            Multiple containers can run on the same machine and share the OS kernel with other containers, 
+                            each running as isolated processes in user space. Containers take up less space than VMs 
+                            (container images are typically tens of MBs in size), can handle more applications and require 
+                            fewer VMs and Operating systems.
+                        </blockquote>
+                        <a href="https://www.docker.com/resources/what-container/" class="small">Docker</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Containers</h2>
+                        <img class="my-0" style="max-width: 600px"
+                            src="https://www.docker.com/wp-content/uploads/2021/11/container-what-is-container-980x849.png">
+                        <br>
+                        <a href="https://www.docker.com/resources/what-container/" class="small" target="_blank" rel="noopener">
+                            Docker
+                        </a>
+                    </section>
+                </section> <!-- Introdução: Containers -->
+
+                <section> <!-- Introdução: Kubernetes -->
+                    <section>
+                        <h2>Kubernetes</h2>
+                        <blockquote class="small">
+                            Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling,
+                            and management of containerized applications.
+                        </blockquote>
+                        <a href="https://kubernetes.io/" class="small" target="_blank" rel="noopener">kubernetes.io</a>
+                    </section>
+                    <section>
+                        <h2>Kubernetes</h2>
+                        <img src="https://deviniciative.files.wordpress.com/2020/09/1.png?w=660"
+                             style="max-width: 600px">
+                        <br>
+                        <a href="https://www.c-sharpcorner.com/article/getting-started-with-kubernetes-part2/"
+                           target="_blank" rel="noopener">
+                            C#Corner
+                        </a>
+                    </section>
+                    <section>
+                        <h3>Pods</h3>
+                        <blockquote class="smaller">
+                            Pods are the smallest deployable units of computing that you can create and
+                            manage in Kubernetes.
+                        </blockquote>
+                        <blockquote class="smaller">
+                            Pod is a group of one or more containers, with shared storage and network
+                            resources, and a specification for how to run the containers. A Pod's contents
+                            are always co-located and co-scheduled, and run in a shared context.                     
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/concepts/workloads/pods/" class="small" target="_blank"
+                           rel="noopener">kubernetes.io</a>
+                    </section>
+                    <section>
+                        <h3>Deployment</h3>
+                        <blockquote class="smaller">
+                            A Deployment provides declarative updates for Pods and ReplicaSets.                     
+                            <br>
+                            You describe a desired state in a Deployment, and the Deployment Controller 
+                            changes the actual state to the desired state at a controlled rate. You can 
+                            define Deployments to create new ReplicaSets, or to remove existing Deployments 
+                            and adopt all their resources with new Deployments.                     
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" class="small"
+                           target="_blank" rel="noopener">kubernetes.io</a>
+                    </section>
+                    <section>
+                        <h3>Service</h3>
+                        <blockquote class="smaller">
+                            An abstract way to expose an application running on a set of Pods as a network
+                            service.
+                        </blockquote>
+                        <blockquote class="smaller">
+                            In Kubernetes, a Service is an abstraction which defines a logical set of Pods
+                            and a policy by which to access them (sometimes this pattern is called a 
+                            micro-service).                     
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/concepts/services-networking/service/" class="small">kubernetes.io</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h3>HorizontalPodAutoscaler (HPA)</h3>
+                        <blockquote class="smaller">
+                            In Kubernetes, a HorizontalPodAutoscaler automatically updates a workload 
+                            resource (such as a Deployment or StatefulSet), with the aim of automatically 
+                            scaling the workload to match demand.
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h3>HorizontalPodAutoscaler (HPA)</h3>
+                        <blockquote class="smaller">
+                            Horizontal scaling means that the response to increased load is to deploy more
+                            Pods. This is different from vertical scaling, which for Kubernetes would mean
+                            assigning more resources (for example: memory or CPU) to the Pods that are 
+                            already running for the workload.                     
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h3>HorizontalPodAutoscaler (HPA)</h3>
+                        <blockquote class="smaller">
+                            If the load decreases, and the number of Pods is above the configured minimum, 
+                            the HorizontalPodAutoscaler instructs the workload resource (the Deployment, 
+                            StatefulSet, or other similar resource) to scale back down.
+                            Horizontal pod autoscaling does not apply to objects that can't be scaled 
+                            (for example: a DaemonSet.)                    
+                        </blockquote>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h3>HorizontalPodAutoscaler (HPA)</h3>
+                        <img
+                            src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2018/08/30/hpa-diagram-2.jpg">
+                        <br>
+                        <a href="https://aws.amazon.com/blogs/opensource/horizontal-pod-autoscaling-eks/" class="small"
+                            target="_blank" rel="noopener">aws.amazon.com</a>
+                    </section>
+                </section> <!-- Introdução: Kubernetes -->
+
+                <section> <!-- Service Mesh -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2>Service Mesh</h2>
+                        <blockquote class="small">
+                            É uma camada dedicada de infraestrutura para facilitar a comunicação entre serviços usando
+                            um proxy
+                        </blockquote>
+                        <a href="https://en.wikipedia.org/wiki/service_mesh"
+                           class="small" target="_blank" rel="noopener">Wikipedia</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h2>Service Mesh</h2>
+                        <blockquote class="small">
+                            Propõe uma gestão mais eficaz das comunicações entre serviços, maior controle operacional e
+                            também o fornecimento de informações comportamentais
+                        </blockquote>
+                        <a href="https://pt.wikipedia.org/wiki/malha_de_servi%c3%a7os"
+                           class="small" target="_blank" rel="noopener">Wikipedia</a>
+                    </section>
+                    <section>
+                        <h4 class="subtitle">Service Mesh</h4>
+                        <h3>Funcionalidades</h3>
+                        <ul>
+                            <li>Encriptação;</li>
+                            <li>Load balancing;</li>
+                            <li>Observabilidade;</li>
+                            <li>Rastreabilidade;</li>
+                            <li>Circuit breaker;</li>
+                            <li>Autenticação e autorização.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4 class="subtitle">Service Mesh</h4>
+                        <h3>Visão geral</h3>
+                        <img src="https://www.nginx.com/wp-content/uploads/2019/02/service-mesh-generic-topology_social.png"
+                             alt="Service Mesh">
+                        <a href="https://www.nginx.com/blog/what-is-a-service-mesh/" class="small" target="_blank" rel="noopener">
+                            nginx.com/blog/what-is-a-service-mesh
+                        </a>
+                    </section>
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Service Mesh</h4>
+                        <h3>Istio</h3>
+                        <blockquote class="small">
+                            is an open source Service Mesh that layers transparently onto existing distributed
+                            applications
+                        </blockquote>
+                        <a href="https://istio.io/latest/about/service-mesh/#what-is-istio"
+                           class="smaller">istio.io</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Service Mesh</h4>
+                        <h3>Istio</h3>
+                        <img src="https://istio.io/latest/img/service-mesh.svg">
+                    </section>
+                </section> <!-- Service Mesh -->
+
+                <section> <!-- Hands-on -->
+                    <section>
+                        <h2>Hands-on</h2>
+                    </section>
+
+                    <section>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>1. Instalando minikube</h3>
+                        <p class="small">
+                            Siga a documentação oficial em
+                            <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener">
+                                minikube.sigs.k8s.io
+                            </a> para instalar o <code>minikube</code> de acordo com seu sistema operacional
+                        </p>
+
+                        <p class="small">
+                            Para ambientes Linux com arquitetura amd-64, o comando é:
+                        </p>
+                        <pre><code data-trim>
+                            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+                            sudo install minikube-linux-amd64 /usr/local/bin/minikube
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>2. Baixando este repositório</h3>
+
+                        <p class="small">
+                            Clone este repositório:
+                        </p>
+                        <pre><code data-trim>
+                            git clone --recurse-submodules \
+                              git@github.com:vcampitelli/workshop-kubernetes.git
+                        </code></pre>
+
+
+                        <p class="small">
+                            Entre na pasta <code>scripts</code> e inicialize o cluster com
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube start
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>3. Instalando o Istio</h3>
+                        <p class="small">
+                            Seguindo a <a href="https://istio.io/latest/docs/setup/getting-started/"
+                                          target="_blank" rel="noopener">documentação em istio.io</a>:
+                        </p>
+                        <pre><code data-trim>
+                            curl -L https://istio.io/downloadIstio | sh -
+                            cd istio-1.13.3
+                            export PATH=$PWD/bin:$PATH
+                        </code></pre>
+                        <p class="smaller">
+                            <em>
+                                Isso irá adicionar a pasta <code>istio-1.13.3/bin</code> em seu <code>$PATH</code>
+                                temporariamente.<br><br>
+                                Para fazer de forma permanente, você pode colocar o último comando
+                                (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
+                                como <code>/etc/profile</code>, <code>~/.bashrc</code>, <code>~/.zshrc</code>, entre
+                                outros.
+                            </em>
+                        </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>3. Instalando o Istio</h3>
+
+                        <p class="small">
+                            Instalando com o perfil <code>demo</code> <em class="smaller">(saiba mais sobre os outros
+                            perfis <a href="https://istio.io/latest/docs/setup/additional-setup/config-profiles/"
+                                      target="_blank" rel="noopener">na documentação</a>)</em>
+                        </p>
+                        <pre><code data-trim>
+                            istioctl install --set profile=demo -y
+                        </code></pre>
+
+                        <p class="small">
+                            Adicionando a <em>label</em> <code>istio-injection=enabled</code> no namespace
+                        </p>
+                        <pre><code data-trim>
+                            kubectl label namespace default istio-injection=enabled
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>4. Deploy do cluster</h3>
+                        <p class="small">
+                            O minikube cria um ambiente separado do Docker. <br>
+                            Portanto, sempre que iniciarmos um terminal e quisermos interagir diretamente com ele,
+                            devemos especificar esse novo ambiente executando:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            eval $(minikube -p minikube docker-env)
+                        </code></pre>
+                        <p class="small">
+                            Então, execute os comandos abaixo para fazer o <em>build</em> das imagens do Docker:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            docker build -t auth:latest auth
+                            docker build -t comments:latest comments
+                            docker build -t posts:latest posts
+                            docker build -t users:latest users
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>4. Deploy do cluster</h3>
+                        <p class="small">
+                            Agora, vamos começar a subir os nossos Pods:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- apply -f auth.yml
+                            minikube kubectl -- apply -f comments.yml
+                            minikube kubectl -- apply -f posts.yml
+                            minikube kubectl -- apply -f users.yml
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>4. Deploy do cluster</h3>
+                        <p class="small">
+                            Para acompanhar os status do Pods:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- get pods
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Como não há um serviço de <em>Load Balancing</em> no <code>minikube</code>, devemos expor os
+                            IPs dos serviços para eles serem acessados localmente
+                        </p>
+                        <p class="small">
+                            Execute o comando abaixo em um novo terminal e mantenha-o rodando:
+                        </p>
+                        <pre><code data-trim>
+                            minikube tunnel --cleanup
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Volte ao terminal anterior e execute o comando a seguir até que os 4
+                            <code>EXTERNAL-IP</code>s estejam alocados:
+                        </p>
+                        <pre><code data-trim>
+                            minikube kubectl -- get services
+                        </code></pre>
+                        <pre class="shell-output" data-id="services">
+                            NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
+                            auth-service          LoadBalancer   10.106.141.164   &lt;pending&gt;        3000:32110/TCP   1h
+                            comments-service      LoadBalancer   10.107.141.217   &lt;pending&gt;        3000:31457/TCP   1h
+                            kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          1h
+                            posts-service         LoadBalancer   10.106.220.106   &lt;pending&gt;        3000:32532/TCP   1h
+                            users-service         LoadBalancer   10.102.133.17    &lt;pending&gt;        3000:30921/TCP   1h
+                        </pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Volte ao terminal anterior e execute o comando a seguir até que os 4
+                            <code>EXTERNAL-IP</code>s estejam alocados:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- get services
+                        </code></pre>
+                        <pre class="shell-output" data-id="services">
+                            NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
+                            auth-service          LoadBalancer   10.106.141.164   10.106.141.164   3000:32110/TCP   1h
+                            comments-service      LoadBalancer   10.107.141.217   10.107.141.217   3000:31457/TCP   1h
+                            kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          1h
+                            posts-service         LoadBalancer   10.106.220.106   10.106.220.106   3000:32532/TCP   1h
+                            users-service         LoadBalancer   10.102.133.17    10.102.133.17    3000:30921/TCP   1h
+                        </pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Para facilitar, vamos guardar os 4 IPs em variáveis:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            IP_AUTH=10.106.141.164
+                            IP_COMMENTS=10.107.141.217
+                            IP_POSTS=10.106.220.106
+                            IP_USERS=10.102.133.17
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Para iniciar, vamos nos autenticar em nossa aplicação, executando o comando abaixo:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            curl -X POST \
+                              -u "admin:admin" \
+                              "http://${IP_AUTH}:3000/auth"
+                        </code></pre>
+                        <p class="small">Resultado:</p>
+                        <pre><code class="json" data-trim>
+                            {
+                              "status": true,
+                              "access_token": "eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW..."
+                            }
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p class="small">
+                            Salve o <code>access_token</code> em uma variável para facilitar as próximas chamadas:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            TOKEN="eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW..."
+                        </code></pre>
+
+                        <p class="small">
+                            Teste os outros serviços:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_COMMENTS}:3000/comments"
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_POSTS}:3000/posts"
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_USERS}:3000/users"
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>6. Criando o API Gateway</h3>
+                        <p class="small">
+                            Vamos criar um API Gateway que irá fazer o roteamento dos nossos microsserviços:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- apply -f istio/gateway.yml
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>6. Criando o API Gateway</h3>
+                        <p class="small">
+                            Descubra o IP do API Gateway:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- -n istio-system get services
+                        </code></pre>
+                        <pre class="shell-output">
+                            NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                AGE
+                            istio-egressgateway    ClusterIP      10.107.106.220   &lt;none&gt;        80/TCP,443/TCP         1h
+                            istio-ingressgateway   LoadBalancer   10.101.22.8      10.101.22.8   15021:32023/TCP, ...   1h
+                            istiod                 ClusterIP      10.111.73.255    &lt;none&gt;        15010/TCP, ...         1h
+                        </pre>
+                        <p class="small">
+                            E mais uma vez, vamos salvar em uma uma variável para facilitar o uso:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            IP_GATEWAY=10.101.22.8
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>6. Criando o API Gateway</h3>
+                        <p class="small">
+                            Vamos testar o roteamento:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/posts"
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/users"
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>7. Configurando o Autoscaling</h3>
+                        <p class="small">
+                            Abra um novo terminal, execute e acompanhe:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            watch -n 1 "minikube kubectl -- get pods -lapp=posts"
+                        </code></pre>
+                        <p class="small">
+                            Volte ao outro terminal e ative o plugin de Metrics:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube addons enable metrics-server
+                        </code></pre>
+                        <p class="small">
+                            Aplique a regra de Autoscaling:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- apply -f hpa.yml
+                        </code></pre>
+
+                        <p class="small">
+                            Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
+                            realizarmos diversas requisições em paralelo e execute:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            wrk -t12 -c400 -d30s -H "Authorization: Bearer ${TOKEN}" "http://${IP_POSTS}:3000/posts"
+                        </code></pre>
+                        <p class="smallest">
+                            PS: esse comando irá abrir 400 conexões distribuídas em 12 threads durante 30 segundos.<br>
+                            Ajuste esses números para atender às especificações de sua máquina.
+                        </p>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>8. Dashboards do Istio</h3>
+                        <p class="small">
+                            Instalando o
+                            <a href="https://istio.io/latest/docs/ops/integrations/kiali/"
+                               target="_blank" rel="noopener">Kiali</a> <em>(dashboard)</em>,
+                            <a href="https://istio.io/latest/docs/ops/integrations/prometheus/"
+                               target="_blank" rel="noopener">Prometheus</a> <em>(métricas)</em>,
+                            <a href="https://istio.io/latest/docs/ops/integrations/grafana/"
+                               target="_blank" rel="noopener">Grafana</a> <em>(monitoramento)</em> e
+                            <a href="https://istio.io/latest/docs/ops/integrations/jaeger/"
+                               target="_blank" rel="noopener">Jaeger</a> <em>(tracing distribuído)</em>:
+                        </p>
+                        <pre><code data-trim>
+                            minikube kubectl -- apply -f &lt;caminho-para-o-istio&gt;/samples/addons
+                        </code></pre>
+                        <pre class="shell-output">
+                            serviceaccount/grafana configured
+                            configmap/grafana configured
+                            service/grafana configured
+                            deployment.apps/grafana configured
+                            ...
+                        </pre>
+                        <p class="small">
+                            Abrindo o Kiali no navegador:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            istioctl dashboard kiali
+                        </code></pre>
+                        <pre class="shell-output">
+                            http://localhost:20001/kiali
+                        </pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h4 class="subtitle">Hands-on</h4>
+                        <h3>8. Chaos Engineering no Istio</h3>
+                        <p class="small">
+                            Aplique a regra abaixo:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            minikube kubectl -- apply -f istio/gateway-delay.yml
+                        </code></pre>
+                        <p class="small">
+                            E busque novamente os comentários, passando pelo API Gateway:
+                        </p>
+                        <pre><code class="sh" data-trim>
+                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
+                        </code></pre>
+                        <em class="small fragment">Fault Injection: Delay</em>
+                    </section>
+                </section> <!-- Hands on -->
+
+                <section>
+                    <h1>Referências</h1>
+                    <ul>
+                        <li>
+                            <a href="https://microservices.io/" target="_blank" rel="noopener">
+                                microservices.io
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://istio.io/" target="_blank" rel="noopener">
+                                istio.io
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.istiobyexample.dev/" target="_blank" rel="noopener">
+                                istiobyexample.dev
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.istioworkshop.io/" target="_blank" rel="noopener">
+                                istioworkshop.io
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <script src="reveal.js/dist/reveal.js"></script>
+        <script src="reveal.js/plugin/highlight/highlight.js"></script>
+        <script>
+            document.querySelectorAll('pre.shell-output').forEach((node) => {
+                let lines = node.innerHTML.split('\n'),
+                    regex;
+                for (let i = 0; i < lines.length; i++) {
+                    if (((i === 0) || (i === lines.length - 1)) && (lines[i].trim() === '')) {
+                        lines.splice(i--, 1);
+                        continue;
+                    }
+
+                    if (!regex) {
+                        const count = lines[i].search(/\S/);
+                        if (count < 1) {
+                            break;
+                        }
+                        regex = new RegExp('^\\s{' + count + '}', 'g');
+                    }
+                    lines[i] = lines[i].replace(regex, '');
+                }
+                node.innerHTML = lines.join('\n');
+            })
+            Reveal.initialize({
+                hash: true,
+                mouseWheel: true,
+                plugins: [RevealHighlight]
+            });
+        </script>
+    </body>
+</html>

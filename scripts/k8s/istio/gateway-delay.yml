@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-route
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - workshop-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /comments
+      fault:
+        delay:
+          percentage:
+            value: 100.0
+          fixedDelay: 5s
+      route:
+        - destination:
+            host: comments-service
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /posts
+      route:
+        - destination:
+            host: posts-service
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /users
+      route:
+        - destination:
+            host: users-service
+            port:
+              number: 3000

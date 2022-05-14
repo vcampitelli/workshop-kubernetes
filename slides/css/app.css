@@ -1,0 +1,132 @@
+:root {
+  --r-background-color: #fff;
+  --r-main-font: "Source Sans Pro", serif, sans-serif;
+  --r-main-color: #333;
+  --r-heading-font: var(--r-main-font);
+  --r-heading-color: #333;
+  --r-subheading-font-weight: 500;
+  --r-main-font-size: 32px;
+  --r-heading-letter-spacing: -2px;
+  --r-heading-text-transform: none;
+  --r-code-font: "Liga Consolas", Consolas, monospace;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+.reveal .slides blockquote,
+.reveal .slides p {
+  letter-spacing: -1px;
+}
+h1.subtitle,
+h2.subtitle,
+h3.subtitle,
+h4.subtitle,
+h5.subtitle,
+h6.subtitle {
+  color: #888;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+h1.subtitle {
+  font-size: calc(0.8 * var(--r-heading1-size));
+}
+h2.subtitle {
+  font-size: calc(0.8 * var(--r-heading2-size));
+}
+h3.subtitle {
+  font-size: calc(0.8 * var(--r-heading3-size));
+}
+h4.subtitle {
+  font-size: calc(0.8 * var(--r-heading4-size));
+}
+h5.subtitle {
+  font-size: calc(0.8 * var(--r-heading4-size));
+}
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+pre.code-wrapper {
+  margin-left: 0;
+  margin-right: 0;
+}
+code:not(.hljs) {
+  font-size: 0.9em;
+  background-color: #fafafa;
+  color: #fe509c;
+  padding: 0.25em 0.4em;
+}
+pre.shell-output {
+  width: 90%;
+  padding: 0.5em;
+  font-size: 0.45em;
+  color: #666;
+  background-color: #fbfbfb;
+  box-shadow: none;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  margin-left: 0;
+}
+.text-center {
+  text-align: center !important;
+}
+blockquote {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.small {
+  font-size: 0.8em;
+}
+.smaller {
+  font-size: 0.7em;
+}
+.smallest {
+  font-size: 0.6em;
+}
+.ml-0 {
+  margin-left: 0 !important;
+}
+.my-0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mw-100 {
+  max-width: 100%;
+}
+ul.margin > li {
+  margin-top: 0.3em;
+}
+.success {
+  color: forestgreen;
+}
+.error {
+  color: indianred;
+}
+
+#profile-pic {
+  margin: 0 auto;
+  max-width: 200px;
+  border-radius: 50%;
+}
+#profile-pic + h4 {
+  font-size: 0.8em;
+  color: var(--r-link-color) !important;
+  letter-spacing: -1px;
+}
+.about-me-links {
+  padding: 24px 0;
+}
+.about-me-links p {
+  margin: 0;
+  line-height: 1;
+}
+.about-me-links p + a {
+  font-weight: 600;
+}
