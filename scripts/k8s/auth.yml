@@ -27,7 +27,7 @@ spec:
           image: auth:latest
           imagePullPolicy: Never
           ports:
-            - containerPort: 80
+            - containerPort: 3000
               protocol: TCP
           env:
             - name: NODE_ENV
