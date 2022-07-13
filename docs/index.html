@@ -430,6 +430,7 @@
                             Agora, vamos começar a subir os nossos Pods:
                         </p>
                         <pre><code class="sh" data-trim>
+                            minikube kubectl -- apply -f jwt_keys.yml
                             minikube kubectl -- apply -f auth.yml
                             minikube kubectl -- apply -f comments.yml
                             minikube kubectl -- apply -f posts.yml
