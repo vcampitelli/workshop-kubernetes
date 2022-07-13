@@ -3,8 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="author" content="vinícius campitelli">
+        <meta name="author" content="Vinícius Campitelli, eu@viniciuscampitelli.com">
+
         <title>Implementando microsserviços com Kubernetes na prática</title>
+
         <link rel="stylesheet" href="reveal.js/dist/reset.css">
         <link rel="stylesheet" href="reveal.js/dist/reveal.css">
         <link rel="stylesheet"
@@ -24,7 +26,7 @@
                         <h2 class="text-center">Sobre mim</h2>
                         <div class="d-flex justify-around">
                             <div class="text-center">
-                                <img src="img/vinicius.jpg" alt="vinícius campitelli" id="profile-pic">
+                                <img src="img/vinicius.jpg" alt="Vinícius Campitelli" id="profile-pic">
                                 <h4>Vinícius Campitelli</h4>
                             </div>
                             <ul>
@@ -83,22 +85,21 @@
                     </section>
                 </section> <!-- Sobre mim -->
 
-                <section> <!-- Mãos na massa -->
-                    <h1 class="h2">Mãos na massa</h1>
-                    <p>Aara acompanhar o workshop e executar os scripts localmente, siga os passos a seguir:</p>
+                <section> <!-- Preparação -->
+                    <h2>Preparação</h2>
+                    <p>Para acompanhar o Workshop, siga os passos a seguir:</p>
                     <ol>
                         <li>
                             Clone esse repositório em
-                            <pre><code class="sh" data-trim>
-                                git clone --recurse-submodules \
-                                  git@github.com:vcampitelli/workshop-kubernetes.git
+                            <pre><code class="shell" data-trim>
+                                $ git clone --recurse-submodules git@github.com:vcampitelli/workshop-kubernetes.git
                             </code></pre>
                         </li>
                         <li>
                             Acesse os slides abrindo <code>docs/index.html</code> em seu navegador
                         </li>
                         <li>
-                            Instale o docker em
+                            Instale o Docker em
                             <a href="https://docs.docker.com/get-docker/" target="_blank" rel="noopener">
                                 docs.docker.com/get-docker
                             </a>
@@ -110,13 +111,13 @@
                             </a>
                         </li>
                         <li>
-                            Entre na pasta <code>scripts/k8s</code> e execute:
-                            <pre><code class="sh" data-trim>
-                                minikube start
+                            Entre na pasta <code>scripts</code> e execute:
+                            <pre><code class="shell" data-trim>
+                                $ minikube start
                             </code></pre>
                         </li>
                     </ol>
-                </section> <!-- Mãos na massa -->
+                </section> <!-- Preparação -->
 
                 <section> <!-- Introdução: microsserviços -->
                     <section>
@@ -139,26 +140,27 @@
                         <h2>Containers</h2>
                         <blockquote class="smaller">
                             Containers are an abstraction at the app layer that packages code and dependencies together.
-                            Multiple containers can run on the same machine and share the OS kernel with other containers,
-                            each running as isolated processes in user space. Containers take up less space than VMs
-                            (container images are typically tens of MBs in size), can handle more applications and require
-                            fewer VMs and Operating systems.
+                            Multiple containers can run on the same machine and share the OS kernel with other
+                            containers, each running as isolated processes in user space. Containers take up less
+                            space than VMs (container images are typically tens of MBs in size), can handle more
+                            applications and require fewer VMs and Operating systems.
                         </blockquote>
                         <a href="https://www.docker.com/resources/what-container/" class="small">Docker</a>
                     </section>
                     <section data-auto-animate>
                         <h2>Containers</h2>
-                        <img class="my-0" style="max-width: 600px"
-                            src="https://www.docker.com/wp-content/uploads/2021/11/container-what-is-container-980x849.png">
+                        <img class="my-0" style="max-width: 600px;" alt="O que são containers Docker"
+                             src="img/container-what-is-container-980x849.png">
                         <br>
-                        <a href="https://www.docker.com/resources/what-container/" class="small" target="_blank" rel="noopener">
+                        <a href="https://www.docker.com/resources/what-container/" class="small" target="_blank"
+                           rel="noopener">
                             Docker
                         </a>
                     </section>
                 </section> <!-- Introdução: Containers -->
 
                 <section> <!-- Introdução: Kubernetes -->
-                    <section>
+                    <section data-auto-animate data-auto-animate-restart>
                         <h2>Kubernetes</h2>
                         <blockquote class="small">
                             Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling,
@@ -166,9 +168,9 @@
                         </blockquote>
                         <a href="https://kubernetes.io/" class="small" target="_blank" rel="noopener">kubernetes.io</a>
                     </section>
-                    <section>
+                    <section data-auto-animate>
                         <h2>Kubernetes</h2>
-                        <img src="https://deviniciative.files.wordpress.com/2020/09/1.png?w=660"
+                        <img src="img/k8s-arquitetura.png" alt="Arquitetura do Kubernetes"
                              style="max-width: 600px">
                         <br>
                         <a href="https://www.c-sharpcorner.com/article/getting-started-with-kubernetes-part2/"
@@ -177,6 +179,7 @@
                         </a>
                     </section>
                     <section>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>Pods</h3>
                         <blockquote class="smaller">
                             Pods are the smallest deployable units of computing that you can create and
@@ -191,6 +194,7 @@
                            rel="noopener">kubernetes.io</a>
                     </section>
                     <section>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>Deployment</h3>
                         <blockquote class="smaller">
                             A Deployment provides declarative updates for Pods and ReplicaSets.
@@ -204,6 +208,7 @@
                            target="_blank" rel="noopener">kubernetes.io</a>
                     </section>
                     <section>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>Service</h3>
                         <blockquote class="smaller">
                             An abstract way to expose an application running on a set of Pods as a network
@@ -217,15 +222,18 @@
                         <a href="https://kubernetes.io/docs/concepts/services-networking/service/" class="small">kubernetes.io</a>
                     </section>
                     <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>HorizontalPodAutoscaler (HPA)</h3>
                         <blockquote class="smaller">
                             In Kubernetes, a HorizontalPodAutoscaler automatically updates a workload
                             resource (such as a Deployment or StatefulSet), with the aim of automatically
                             scaling the workload to match demand.
                         </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
+                           class="small">kubernetes.io</a>
                     </section>
                     <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>HorizontalPodAutoscaler (HPA)</h3>
                         <blockquote class="smaller">
                             Horizontal scaling means that the response to increased load is to deploy more
@@ -233,9 +241,11 @@
                             assigning more resources (for example: memory or CPU) to the Pods that are
                             already running for the workload.
                         </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
+                           class="small">kubernetes.io</a>
                     </section>
                     <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>HorizontalPodAutoscaler (HPA)</h3>
                         <blockquote class="smaller">
                             If the load decreases, and the number of Pods is above the configured minimum,
@@ -244,15 +254,16 @@
                             Horizontal pod autoscaling does not apply to objects that can't be scaled
                             (for example: a DaemonSet.)
                         </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" class="small">kubernetes.io</a>
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
+                           class="small">kubernetes.io</a>
                     </section>
                     <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
                         <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <img
-                            src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2018/08/30/hpa-diagram-2.jpg">
+                        <img src="img/hpa.jpg" alt="HorizontalPodAutoscaler">
                         <br>
                         <a href="https://aws.amazon.com/blogs/opensource/horizontal-pod-autoscaling-eks/" class="small"
-                            target="_blank" rel="noopener">aws.amazon.com</a>
+                           target="_blank" rel="noopener">aws.amazon.com</a>
                     </section>
                 </section> <!-- Introdução: Kubernetes -->
 
@@ -319,60 +330,59 @@
                     </section>
 
                     <section>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>1. Instalando minikube</h3>
-                        <p class="small">
+                        <p>
                             Siga a documentação oficial em
                             <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener">
                                 minikube.sigs.k8s.io
                             </a> para instalar o <code>minikube</code> de acordo com seu sistema operacional
                         </p>
 
-                        <p class="small">
-                            Para ambientes Linux com arquitetura amd-64, o comando é:
+                        <p>
+                            Para ambientes Linux com arquitetura amd64, o comando é:
                         </p>
-                        <pre><code data-trim>
-                            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-                            sudo install minikube-linux-amd64 /usr/local/bin/minikube
+                        <pre><code class="shell" data-trim>
+                            $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+                            $ sudo install minikube-linux-amd64 /usr/local/bin/minikube
                         </code></pre>
                     </section>
 
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
-                        <h3>2. Baixando este repositório</h3>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>2. Iniciando o cluster</h3>
 
-                        <p class="small">
-                            Clone este repositório:
+                        <p>
+                            Clone ou atualize este repositório:
                         </p>
-                        <pre><code data-trim>
-                            git clone --recurse-submodules \
-                              git@github.com:vcampitelli/workshop-kubernetes.git
+                        <pre><code class="shell" data-trim>
+                            $ git clone --recurse-submodules git@github.com:vcampitelli/workshop-kubernetes.git
                         </code></pre>
 
-
-                        <p class="small">
-                            Entre na pasta <code>scripts</code> e inicialize o cluster com
+                        <p>
+                            Entre na pasta <code>scripts</code> e inicialize o
+                            <em>cluster</em> com:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            minikube start
+                        <pre><code class="shell" data-trim>
+                            $ minikube start
                         </code></pre>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>3. Instalando o Istio</h3>
-                        <p class="small">
+                        <p>
                             Seguindo a <a href="https://istio.io/latest/docs/setup/getting-started/"
                                           target="_blank" rel="noopener">documentação em istio.io</a>:
                         </p>
-                        <pre><code data-trim>
-                            curl -L https://istio.io/downloadIstio | sh -
-                            cd istio-1.13.3
-                            export PATH=$PWD/bin:$PATH
+                        <pre><code class="shell" data-trim>
+                            $ curl -L https://istio.io/downloadIstio | sh -
+                            $ cd istio-1.14.1
+                            $ export PATH=$PWD/bin:$PATH
                         </code></pre>
                         <p class="smaller">
                             <em>
-                                Isso irá adicionar a pasta <code>istio-1.13.3/bin</code> em seu <code>$PATH</code>
+                                Isso irá adicionar a pasta <code>istio-1.14.1/bin</code> em seu <code>$PATH</code>
                                 temporariamente.<br><br>
                                 Para fazer de forma permanente, você pode colocar o último comando
                                 (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
@@ -382,154 +392,157 @@
                         </p>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>3. Instalando o Istio</h3>
 
-                        <p class="small">
+                        <p>
                             Instalando com o perfil <code>demo</code> <em class="smaller">(saiba mais sobre os outros
                             perfis <a href="https://istio.io/latest/docs/setup/additional-setup/config-profiles/"
                                       target="_blank" rel="noopener">na documentação</a>)</em>
                         </p>
-                        <pre><code data-trim>
-                            istioctl install --set profile=demo -y
+                        <pre><code class="shell" data-trim>
+                            $ istioctl install --set profile=demo -y
                         </code></pre>
 
-                        <p class="small">
-                            Adicionando a <em>label</em> <code>istio-injection=enabled</code> no namespace
+                        <p>
+                            Adicionando a <em>label</em> <code>istio-injection=enabled</code> no <em>namespace
+                            default</em>, indicando que queremos injetá-lo automaticamente em nossas aplicações
                         </p>
-                        <pre><code data-trim>
-                            kubectl label namespace default istio-injection=enabled
-                        </code></pre>
-                    </section>
-
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
-                        <h3>4. Deploy do cluster</h3>
-                        <p class="small">
-                            O minikube cria um ambiente separado do Docker. <br>
-                            Portanto, sempre que iniciarmos um terminal e quisermos interagir diretamente com ele,
-                            devemos especificar esse novo ambiente executando:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            eval $(minikube -p minikube docker-env)
-                        </code></pre>
-                        <p class="small">
-                            Então, execute os comandos abaixo para fazer o <em>build</em> das imagens do Docker:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            docker build -t auth:latest auth
-                            docker build -t comments:latest comments
-                            docker build -t posts:latest posts
-                            docker build -t users:latest users
-                        </code></pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
-                        <h3>4. Deploy do cluster</h3>
-                        <p class="small">
-                            Agora, vamos começar a subir os nossos Pods:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- apply -f jwt_keys.yml
-                            minikube kubectl -- apply -f auth.yml
-                            minikube kubectl -- apply -f comments.yml
-                            minikube kubectl -- apply -f posts.yml
-                            minikube kubectl -- apply -f users.yml
-                        </code></pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
-                        <h3>4. Deploy do cluster</h3>
-                        <p class="small">
-                            Para acompanhar os status do Pods:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- get pods
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- label namespace default istio-injection=enabled
                         </code></pre>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>4. Deploy do cluster</h3>
+                        <p>
+                            O minikube cria um serviço separado do Docker, então sempre que iniciarmos um terminal e
+                            quisermos interagir diretamente com ele, devemos especificar que queremos executar os
+                            comandos nesse novo ambiente:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ eval $(minikube -p minikube docker-env)
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>4. Deploy do cluster</h3>
+                        <p>
+                            Execute os comandos abaixo para fazer o <em>build</em> das imagens do Docker:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ docker build -t auth:latest auth
+                            $ docker build -t comments:latest comments
+                            $ docker build -t posts:latest posts
+                            $ docker build -t users:latest users
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>4. Deploy do cluster</h3>
+                        <p>
+                            Agora, vamos começar a subir a nossa aplicação:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/jwt_keys.yml
+                            $ minikube kubectl -- apply -f k8s/auth.yml
+                            $ minikube kubectl -- apply -f k8s/comments.yml
+                            $ minikube kubectl -- apply -f k8s/posts.yml
+                            $ minikube kubectl -- apply -f k8s/users.yml
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>4. Deploy do cluster</h3>
+                        <p>
+                            Para acompanhar tudo que foi configurado:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- get pods
+                            $ minikube kubectl -- get deployments
+                            $ minikube kubectl -- get services
+                        </code></pre>
+                    </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>5. Acessando os serviços</h3>
 
-                        <p class="small">
+                        <p>
                             Como não há um serviço de <em>Load Balancing</em> no <code>minikube</code>, devemos expor os
                             IPs dos serviços para eles serem acessados localmente
                         </p>
-                        <p class="small">
+                        <p>
                             Execute o comando abaixo em um novo terminal e mantenha-o rodando:
                         </p>
-                        <pre><code data-trim>
-                            minikube tunnel --cleanup
+                        <pre><code class="shell" data-trim>
+                            $ minikube tunnel --cleanup
                         </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>5. Acessando os serviços</h3>
 
-                        <p class="small">
+                        <p>
                             Volte ao terminal anterior e execute o comando a seguir até que os 4
                             <code>EXTERNAL-IP</code>s estejam alocados:
                         </p>
-                        <pre><code data-trim>
-                            minikube kubectl -- get services
-                        </code></pre>
-                        <pre class="shell-output" data-id="services">
+                        <pre data-id="pre"><code class="shell" data-trim>
+                            $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
                             auth-service          LoadBalancer   10.106.141.164   &lt;pending&gt;        3000:32110/TCP   1h
                             comments-service      LoadBalancer   10.107.141.217   &lt;pending&gt;        3000:31457/TCP   1h
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          1h
                             posts-service         LoadBalancer   10.106.220.106   &lt;pending&gt;        3000:32532/TCP   1h
                             users-service         LoadBalancer   10.102.133.17    &lt;pending&gt;        3000:30921/TCP   1h
-                        </pre>
+                        </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>5. Acessando os serviços</h3>
 
-                        <p class="small">
+                        <p>
                             Volte ao terminal anterior e execute o comando a seguir até que os 4
                             <code>EXTERNAL-IP</code>s estejam alocados:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- get services
-                        </code></pre>
-                        <pre class="shell-output" data-id="services">
+                        <pre data-id="pre"><code class="shell" data-trim>
+                            $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
                             auth-service          LoadBalancer   10.106.141.164   10.106.141.164   3000:32110/TCP   1h
                             comments-service      LoadBalancer   10.107.141.217   10.107.141.217   3000:31457/TCP   1h
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          1h
                             posts-service         LoadBalancer   10.106.220.106   10.106.220.106   3000:32532/TCP   1h
                             users-service         LoadBalancer   10.102.133.17    10.102.133.17    3000:30921/TCP   1h
-                        </pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
-                        <h3>5. Acessando os serviços</h3>
-
-                        <p class="small">
-                            Para facilitar, vamos guardar os 4 IPs em variáveis:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            IP_AUTH=10.106.141.164
-                            IP_COMMENTS=10.107.141.217
-                            IP_POSTS=10.106.220.106
-                            IP_USERS=10.102.133.17
                         </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>5. Acessando os serviços</h3>
 
-                        <p class="small">
+                        <p>
+                            Para facilitar, vamos guardar os 4 IPs com as portas em variáveis:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ IP_AUTH=10.106.141.164:3000
+                            $ IP_COMMENTS=10.107.141.217:3000
+                            $ IP_POSTS=10.106.220.106:3000
+                            $ IP_USERS=10.102.133.17:3000
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>5. Acessando os serviços</h3>
+
+                        <p>
                             Para iniciar, vamos nos autenticar em nossa aplicação, executando o comando abaixo:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            curl -X POST \
+                        <pre><code class="shell" data-trim>
+                            $ curl -X POST \
                               -u "admin:admin" \
-                              "http://${IP_AUTH}:3000/auth"
+                              "http://${IP_AUTH}/auth"
                         </code></pre>
-                        <p class="small">Resultado:</p>
+                        <p>Resultado:</p>
                         <pre><code class="json" data-trim>
                             {
                               "status": true,
@@ -538,109 +551,128 @@
                         </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>5. Acessando os serviços</h3>
 
-                        <p class="small">
+                        <p>
                             Salve o <code>access_token</code> em uma variável para facilitar as próximas chamadas:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            TOKEN="eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW..."
+                        <pre><code class="shell" data-trim>
+                            $ TOKEN="eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW..."
                         </code></pre>
 
-                        <p class="small">
+                        <p>
                             Teste os outros serviços:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_COMMENTS}:3000/comments"
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_POSTS}:3000/posts"
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_USERS}:3000/users"
+                        <pre><code class="shell" data-trim>
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_COMMENTS}/comments"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_POSTS}/posts"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_USERS}/users"
                         </code></pre>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>6. Criando o API Gateway</h3>
-                        <p class="small">
+                        <p>
                             Vamos criar um API Gateway que irá fazer o roteamento dos nossos microsserviços:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- apply -f istio/gateway.yml
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/istio/gateway.yml
                         </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>6. Criando o API Gateway</h3>
-                        <p class="small">
+                        <p>
                             Descubra o IP do API Gateway:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- -n istio-system get services
-                        </code></pre>
-                        <pre class="shell-output">
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- -n istio-system get services
                             NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                AGE
                             istio-egressgateway    ClusterIP      10.107.106.220   &lt;none&gt;        80/TCP,443/TCP         1h
                             istio-ingressgateway   LoadBalancer   10.101.22.8      10.101.22.8   15021:32023/TCP, ...   1h
                             istiod                 ClusterIP      10.111.73.255    &lt;none&gt;        15010/TCP, ...         1h
-                        </pre>
-                        <p class="small">
-                            E mais uma vez, vamos salvar em uma uma variável para facilitar o uso:
+                        </code></pre>
+                        <p>
+                            E mais uma vez, vamos salvar em uma variável para facilitar o uso:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            IP_GATEWAY=10.101.22.8
+                        <pre><code class="shell" data-trim>
+                            $ IP_GATEWAY=10.101.22.8
                         </code></pre>
                     </section>
                     <section data-auto-animate>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>6. Criando o API Gateway</h3>
-                        <p class="small">
+                        <p>
                             Vamos testar o roteamento:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/posts"
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/users"
+                        <pre><code class="shell" data-trim>
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/posts"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/users"
                         </code></pre>
                     </section>
+
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>7. Configurando o Autoscaling</h3>
-                        <p class="small">
-                            Abra um novo terminal, execute e acompanhe:
+                        <p>
+                            Ative o plugin de Metrics para coletar dados do uso de recursos:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            watch -n 1 "minikube kubectl -- get pods -lapp=posts"
-                        </code></pre>
-                        <p class="small">
-                            Volte ao outro terminal e ative o plugin de Metrics:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            minikube addons enable metrics-server
-                        </code></pre>
-                        <p class="small">
-                            Aplique a regra de Autoscaling:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- apply -f hpa.yml
+                        <pre><code class="shell" data-trim>
+                            $ minikube addons enable metrics-server
                         </code></pre>
 
-                        <p class="small">
-                            Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
-                            realizarmos diversas requisições em paralelo e execute:
+                        <p>
+                            Abra um novo terminal e aplique a regra de Autoscaling:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            wrk -t12 -c400 -d30s -H "Authorization: Bearer ${TOKEN}" "http://${IP_POSTS}:3000/posts"
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/hpa.yml
+                        </code></pre>
+
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
+                           class="small" target="_blank" rel="noopener">
+                            kubernetes.io/docs/tasks
+                        </a>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>7. Configurando o Autoscaling</h3>
+                        <p>
+                            Abra um novo terminal e execute o comando abaixo para acompanhar o status:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ watch -n 1 "minikube kubectl -- get hpa"
+                        </code></pre>
+
+                        <p>Também é possível rodar este comando para visualizar o histórico de ações:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- describe hpa posts
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on</h2>
+                        <h3>7. Configurando o Autoscaling</h3>
+                        <p>
+                            Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
+                            realizar requisições simultâneas e execute:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ wrk -t8 -c400 -d30s \
+                                -H "Authorization: Bearer ${TOKEN}" \
+                                "http://${IP_POSTS}/posts"
                         </code></pre>
                         <p class="smallest">
-                            PS: esse comando irá abrir 400 conexões distribuídas em 12 threads durante 30 segundos.<br>
+                            PS: esse comando irá abrir 400 conexões distribuídas em 8 threads durante 30 segundos.<br>
                             Ajuste esses números para atender às especificações de sua máquina.
                         </p>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>8. Dashboards do Istio</h3>
-                        <p class="small">
+                        <p>
                             Instalando o
                             <a href="https://istio.io/latest/docs/ops/integrations/kiali/"
                                target="_blank" rel="noopener">Kiali</a> <em>(dashboard)</em>,
@@ -651,41 +683,37 @@
                             <a href="https://istio.io/latest/docs/ops/integrations/jaeger/"
                                target="_blank" rel="noopener">Jaeger</a> <em>(tracing distribuído)</em>:
                         </p>
-                        <pre><code data-trim>
-                            minikube kubectl -- apply -f &lt;caminho-para-o-istio&gt;/samples/addons
-                        </code></pre>
-                        <pre class="shell-output">
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f &lt;caminho-para-o-istio&gt;/samples/addons
                             serviceaccount/grafana configured
                             configmap/grafana configured
                             service/grafana configured
                             deployment.apps/grafana configured
                             ...
-                        </pre>
-                        <p class="small">
-                            Abrindo o Kiali no navegador:
-                        </p>
-                        <pre><code class="sh" data-trim>
-                            istioctl dashboard kiali
                         </code></pre>
-                        <pre class="shell-output">
+                        <p>
+                            Para abrir o Kiali no navegador, execute o comando abaixo e acesse o endereço informado:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ istioctl dashboard kiali
                             http://localhost:20001/kiali
-                        </pre>
+                        </code></pre>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Hands-on</h4>
+                        <h2 class="subtitle">Hands-on</h2>
                         <h3>8. Chaos Engineering no Istio</h3>
-                        <p class="small">
+                        <p>
                             Aplique a regra abaixo:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            minikube kubectl -- apply -f istio/gateway-delay.yml
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/istio/gateway-delay.yml
                         </code></pre>
-                        <p class="small">
+                        <p>
                             E busque novamente os comentários, passando pelo API Gateway:
                         </p>
-                        <pre><code class="sh" data-trim>
-                            curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
+                        <pre><code class="shell" data-trim>
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
                         </code></pre>
                         <em class="small fragment">Fault Injection: Delay</em>
                     </section>
@@ -697,6 +725,21 @@
                         <li>
                             <a href="https://microservices.io/" target="_blank" rel="noopener">
                                 microservices.io
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://kubernetes.io/" target="_blank" rel="noopener">
+                                kubernetes.io
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://minikube.sigs.k8s.io/docs/" target="_blank" rel="noopener">
+                                minikube.sigs.k8s.io
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/@SasidharSmit/autoscaling-in-kubernetes-a-primer-on-autoscaling-7b8f0f95a928" target="_blank" rel="noopener">
+                                Artigo: "Autoscaling in Kubernetes: A Primer on Autoscaling"
                             </a>
                         </li>
                         <li>
@@ -714,39 +757,13 @@
                                 istioworkshop.io
                             </a>
                         </li>
-                        <li>
-                            <a href="https://kubernetes.io/" target="_blank" rel="noopener">
-                                kubernetes.io
-                            </a>
-                        </li>
                     </ul>
                 </section>
             </div>
         </div>
-
         <script src="reveal.js/dist/reveal.js"></script>
         <script src="reveal.js/plugin/highlight/highlight.js"></script>
         <script>
-            document.querySelectorAll('pre.shell-output').forEach((node) => {
-                let lines = node.innerHTML.split('\n'),
-                    regex;
-                for (let i = 0; i < lines.length; i++) {
-                    if (((i === 0) || (i === lines.length - 1)) && (lines[i].trim() === '')) {
-                        lines.splice(i--, 1);
-                        continue;
-                    }
-
-                    if (!regex) {
-                        const count = lines[i].search(/\S/);
-                        if (count < 1) {
-                            break;
-                        }
-                        regex = new RegExp('^\\s{' + count + '}', 'g');
-                    }
-                    lines[i] = lines[i].replace(regex, '');
-                }
-                node.innerHTML = lines.join('\n');
-            })
             Reveal.initialize({
                 hash: true,
                 mouseWheel: true,

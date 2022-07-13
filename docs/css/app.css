@@ -60,17 +60,6 @@ code:not(.hljs) {
   color: #fe509c;
   padding: 0.25em 0.4em;
 }
-pre.shell-output {
-  width: 90%;
-  padding: 0.5em;
-  font-size: 0.45em;
-  color: #666;
-  background-color: #fbfbfb;
-  box-shadow: none;
-  box-sizing: border-box;
-  white-space: pre-wrap;
-  margin-left: 0;
-}
 .text-center {
   text-align: center !important;
 }
