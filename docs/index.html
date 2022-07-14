@@ -428,13 +428,21 @@
                         <h3>4. Acessando os serviços</h3>
 
                         <p>
-                            Para facilitar, vamos guardar os 4 IPs com as portas em variáveis:
+                            Para facilitar, vamos guardar os quatro IPs com as portas em variáveis:
                         </p>
                         <pre><code class="shell" data-trim>
                             $ IP_AUTH=&lt;IP-Auth&gt;:3000
                             $ IP_COMMENTS=&lt;IP-Comments&gt;:3000
                             $ IP_POSTS=&lt;IP-Posts&gt;:3000
                             $ IP_USERS=&lt;IP-Users&gt;:3000
+                        </code></pre>
+
+                        <p>
+                            Você pode executar o <em>script</em> <code>scripts/ips.sh</code> para fazer isso
+                            automaticamente:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ eval $(./ips.sh)
                         </code></pre>
                     </section>
                     <section data-auto-animate>
