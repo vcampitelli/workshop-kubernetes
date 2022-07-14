@@ -1,8 +1,8 @@
-# Implementando microsserviços com Kubernetes na prática
+# Workshop de Kubernetes
 
 Clone este repositório com:
 ```sh
-git clone --recurse-submodules \
+git clone -b letscode --recurse-submodules \
   git@github.com:vcampitelli/workshop-kubernetes.git
 ```
 

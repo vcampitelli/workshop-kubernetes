@@ -1,57 +1,64 @@
 <!doctype html>
-<html>
+<html lang="pt-BR">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="copyright" content="Let's Code">
         <meta name="author" content="Vinícius Campitelli, eu@viniciuscampitelli.com">
 
-        <title>Implementando microsserviços com Kubernetes na prática</title>
+        <title>Kubernetes</title>
 
         <link rel="stylesheet" href="reveal.js/dist/reset.css">
         <link rel="stylesheet" href="reveal.js/dist/reveal.css">
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github-dark.min.css">
         <link rel="stylesheet" href="reveal.js/dist/theme/white.css">
-        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.3/styles/dracula.min.css"
+              integrity="sha512-UPcL+5Ec/OV1+OGGgpK9ZS1NLz/sXczHAYUkSaSMQjgIYufontU+rYGAkK9B//Oze4cFTLfLnzNtsI+cG2FwjQ=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Montserrat:wght@300;400;500&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet" href="css/letscode.css">
     </head>
     <body>
         <div class="reveal">
             <div class="slides">
                 <section>
-                    <h1>Implementando microsserviços com Kubernetes na prática</h1>
+                    <div id="intro">
+                        <h1>Kubernetes</h1>
+                        <h2>LET'S CODE</h2>
+                    </div>
                 </section>
 
                 <section> <!-- Sobre mim -->
                     <section data-auto-animate>
-                        <h2 class="text-center">Sobre mim</h2>
+                        <h2>Sobre mim</h2>
                         <div class="d-flex justify-around">
                             <div class="text-center">
                                 <img src="img/vinicius.jpg" alt="Vinícius Campitelli" id="profile-pic">
                                 <h4>Vinícius Campitelli</h4>
                             </div>
                             <ul>
-                                <li>
-                                    Membro do <a href="https://phpsp.org.br" target="_blank" rel="noopener">PHPSP</a>
+                                <li>Membro do <a href="https://phpsp.org.br" target="_blank" rel="noopener">PHPSP</a>
                                 </li>
                                 <li>Entusiasta em cibersegurança</li>
                                 <li>Desenvolvedor há 15 anos</li>
-                                <li>
-                                    Instrutor na
-                                    <a href="https://letscode.com.br" target="_blank" rel="noopener">Let's Code</a>
-                                </li>
+                                <li>Instrutor na <a href="https://letscode.com.br" target="_blank" rel="noopener">Let's
+                                    Code</a></li>
                             </ul>
                         </div>
                     </section>
                     <section data-auto-animate>
-                        <h2 class="text-center">Sobre mim</h2>
-                        <div class="d-flex one-third-columns about-me-links">
+                        <h2>Sobre mim</h2>
+                        <div class="d-flex about-me-links justify-between">
                             <div>
                                 <svg role="img" width="64px" height="64px" viewBox="0 0 24 24"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                                          fill="#1e2640" opacity="0.9"></path>
+                                          class="fill"></path>
                                 </svg>
-                                <p>Slides &amp; GitHub</p>
+                                <p>GitHub</p>
                                 <a href="https://github.com/vcampitelli" target="_blank" rel="noopener">
                                     vcampitelli
                                 </a>
@@ -60,7 +67,7 @@
                                 <svg role="img" width="64px" height="64px" viewBox="0 0 24 24"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
-                                          fill="#1e2640" opacity="0.9"></path>
+                                          class="fill"></path>
                                 </svg>
                                 <p>Twitter</p>
                                 <a href="https://twitter.com/vcampitelli" target="_blank" rel="noopener">
@@ -71,9 +78,9 @@
                                 <svg height="64" viewBox="0 0 74 74" width="64" xmlns="http://www.w3.org/2000/svg">
                                     <g fill="none" fill-rule="evenodd">
                                         <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z"
-                                              fill="#1e2640" opacity="0.9"/>
+                                              class="fill"/>
                                         <path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
-                                              fill="#fff"/>
+                                              class="fill-fg"/>
                                     </g>
                                 </svg>
                                 <p>LinkedIn</p>
@@ -92,7 +99,8 @@
                         <li>
                             Clone esse repositório em
                             <pre><code class="shell" data-trim>
-                                $ git clone --recurse-submodules git@github.com:vcampitelli/workshop-kubernetes.git
+                                $ git clone -b letscode --recurse-submodules \
+                                    git@github.com:vcampitelli/workshop-kubernetes.git
                             </code></pre>
                         </li>
                         <li>
@@ -260,69 +268,12 @@
                     <section data-auto-animate>
                         <h2 class="subtitle">Kubernetes</h2>
                         <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <img src="img/hpa.jpg" alt="HorizontalPodAutoscaler">
+                        <img src="img/hpa.png" alt="HorizontalPodAutoscaler">
                         <br>
                         <a href="https://aws.amazon.com/blogs/opensource/horizontal-pod-autoscaling-eks/" class="small"
                            target="_blank" rel="noopener">aws.amazon.com</a>
                     </section>
                 </section> <!-- Introdução: Kubernetes -->
-
-                <section> <!-- Service Mesh -->
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2>Service Mesh</h2>
-                        <blockquote class="small">
-                            É uma camada dedicada de infraestrutura para facilitar a comunicação entre serviços usando
-                            um proxy
-                        </blockquote>
-                        <a href="https://en.wikipedia.org/wiki/service_mesh"
-                           class="small" target="_blank" rel="noopener">Wikipedia</a>
-                    </section>
-                    <section data-auto-animate>
-                        <h2>Service Mesh</h2>
-                        <blockquote class="small">
-                            Propõe uma gestão mais eficaz das comunicações entre serviços, maior controle operacional e
-                            também o fornecimento de informações comportamentais
-                        </blockquote>
-                        <a href="https://pt.wikipedia.org/wiki/malha_de_servi%c3%a7os"
-                           class="small" target="_blank" rel="noopener">Wikipedia</a>
-                    </section>
-                    <section>
-                        <h4 class="subtitle">Service Mesh</h4>
-                        <h3>Funcionalidades</h3>
-                        <ul>
-                            <li>Encriptação;</li>
-                            <li>Load balancing;</li>
-                            <li>Observabilidade;</li>
-                            <li>Rastreabilidade;</li>
-                            <li>Circuit breaker;</li>
-                            <li>Autenticação e autorização.</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h4 class="subtitle">Service Mesh</h4>
-                        <h3>Visão geral</h3>
-                        <img src="https://www.nginx.com/wp-content/uploads/2019/02/service-mesh-generic-topology_social.png"
-                             alt="Service Mesh">
-                        <a href="https://www.nginx.com/blog/what-is-a-service-mesh/" class="small" target="_blank" rel="noopener">
-                            nginx.com/blog/what-is-a-service-mesh
-                        </a>
-                    </section>
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h4 class="subtitle">Service Mesh</h4>
-                        <h3>Istio</h3>
-                        <blockquote class="small">
-                            is an open source Service Mesh that layers transparently onto existing distributed
-                            applications
-                        </blockquote>
-                        <a href="https://istio.io/latest/about/service-mesh/#what-is-istio"
-                           class="smaller">istio.io</a>
-                    </section>
-                    <section data-auto-animate>
-                        <h4 class="subtitle">Service Mesh</h4>
-                        <h3>Istio</h3>
-                        <img src="https://istio.io/latest/img/service-mesh.svg">
-                    </section>
-                </section> <!-- Service Mesh -->
 
                 <section> <!-- Hands-on -->
                     <section>
@@ -356,7 +307,8 @@
                             Clone ou atualize este repositório:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ git clone --recurse-submodules git@github.com:vcampitelli/workshop-kubernetes.git
+                            $ git clone -b letscode --recurse-submodules \
+                                git@github.com:vcampitelli/workshop-kubernetes.git
                         </code></pre>
 
                         <p>
@@ -370,52 +322,7 @@
 
                     <section data-auto-animate data-auto-animate-restart>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>3. Instalando o Istio</h3>
-                        <p>
-                            Seguindo a <a href="https://istio.io/latest/docs/setup/getting-started/"
-                                          target="_blank" rel="noopener">documentação em istio.io</a>:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ curl -L https://istio.io/downloadIstio | sh -
-                            $ cd istio-1.14.1
-                            $ export PATH=$PWD/bin:$PATH
-                        </code></pre>
-                        <p class="smaller">
-                            <em>
-                                Isso irá adicionar a pasta <code>istio-1.14.1/bin</code> em seu <code>$PATH</code>
-                                temporariamente.<br><br>
-                                Para fazer de forma permanente, você pode colocar o último comando
-                                (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
-                                como <code>/etc/profile</code>, <code>~/.bashrc</code>, <code>~/.zshrc</code>, entre
-                                outros.
-                            </em>
-                        </p>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>3. Instalando o Istio</h3>
-
-                        <p>
-                            Instalando com o perfil <code>demo</code> <em class="smaller">(saiba mais sobre os outros
-                            perfis <a href="https://istio.io/latest/docs/setup/additional-setup/config-profiles/"
-                                      target="_blank" rel="noopener">na documentação</a>)</em>
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ istioctl install --set profile=demo -y
-                        </code></pre>
-
-                        <p>
-                            Adicionando a <em>label</em> <code>istio-injection=enabled</code> no <em>namespace
-                            default</em>, indicando que queremos injetá-lo automaticamente em nossas aplicações
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- label namespace default istio-injection=enabled
-                        </code></pre>
-                    </section>
-
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>4. Deploy do cluster</h3>
+                        <h3>3. Deploy do cluster</h3>
                         <p>
                             O minikube cria um serviço separado do Docker, então sempre que iniciarmos um terminal e
                             quisermos interagir diretamente com ele, devemos especificar que queremos executar os
@@ -427,7 +334,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>4. Deploy do cluster</h3>
+                        <h3>3. Deploy do cluster</h3>
                         <p>
                             Execute os comandos abaixo para fazer o <em>build</em> das imagens do Docker:
                         </p>
@@ -440,7 +347,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>4. Deploy do cluster</h3>
+                        <h3>3. Deploy do cluster</h3>
                         <p>
                             Agora, vamos começar a subir a nossa aplicação:
                         </p>
@@ -454,7 +361,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>4. Deploy do cluster</h3>
+                        <h3>3. Deploy do cluster</h3>
                         <p>
                             Para acompanhar tudo que foi configurado:
                         </p>
@@ -467,7 +374,7 @@
 
                     <section data-auto-animate data-auto-animate-restart>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
                             Como não há um serviço de <em>Load Balancing</em> no <code>minikube</code>, devemos expor os
@@ -482,10 +389,10 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
-                            Volte ao terminal anterior e execute o comando a seguir até que os 4
+                            Volte ao terminal anterior e execute o comando a seguir até que os quatro
                             <code>EXTERNAL-IP</code>s estejam alocados:
                         </p>
                         <pre data-id="pre"><code class="shell" data-trim>
@@ -500,10 +407,10 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
-                            Volte ao terminal anterior e execute o comando a seguir até que os 4
+                            Volte ao terminal anterior e execute o comando a seguir até que os quatro
                             <code>EXTERNAL-IP</code>s estejam alocados:
                         </p>
                         <pre data-id="pre"><code class="shell" data-trim>
@@ -518,21 +425,21 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
                             Para facilitar, vamos guardar os 4 IPs com as portas em variáveis:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ IP_AUTH=10.106.141.164:3000
-                            $ IP_COMMENTS=10.107.141.217:3000
-                            $ IP_POSTS=10.106.220.106:3000
-                            $ IP_USERS=10.102.133.17:3000
+                            $ IP_AUTH=&lt;IP-Auth&gt;:3000
+                            $ IP_COMMENTS=&lt;IP-Comments&gt;:3000
+                            $ IP_POSTS=&lt;IP-Posts&gt;:3000
+                            $ IP_USERS=&lt;IP-Users&gt;:3000
                         </code></pre>
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
                             Para iniciar, vamos nos autenticar em nossa aplicação, executando o comando abaixo:
@@ -552,7 +459,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>5. Acessando os serviços</h3>
+                        <h3>4. Acessando os serviços</h3>
 
                         <p>
                             Salve o <code>access_token</code> em uma variável para facilitar as próximas chamadas:
@@ -573,50 +480,7 @@
 
                     <section data-auto-animate data-auto-animate-restart>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>6. Criando o API Gateway</h3>
-                        <p>
-                            Vamos criar um API Gateway que irá fazer o roteamento dos nossos microsserviços:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- apply -f k8s/istio/gateway.yml
-                        </code></pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>6. Criando o API Gateway</h3>
-                        <p>
-                            Descubra o IP do API Gateway:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- -n istio-system get services
-                            NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                AGE
-                            istio-egressgateway    ClusterIP      10.107.106.220   &lt;none&gt;        80/TCP,443/TCP         1h
-                            istio-ingressgateway   LoadBalancer   10.101.22.8      10.101.22.8   15021:32023/TCP, ...   1h
-                            istiod                 ClusterIP      10.111.73.255    &lt;none&gt;        15010/TCP, ...         1h
-                        </code></pre>
-                        <p>
-                            E mais uma vez, vamos salvar em uma variável para facilitar o uso:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ IP_GATEWAY=10.101.22.8
-                        </code></pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>6. Criando o API Gateway</h3>
-                        <p>
-                            Vamos testar o roteamento:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/posts"
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/users"
-                        </code></pre>
-                    </section>
-
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>7. Configurando o Autoscaling</h3>
+                        <h3>5. Configurando o Autoscaling</h3>
                         <p>
                             Ative o plugin de Metrics para coletar dados do uso de recursos:
                         </p>
@@ -638,7 +502,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>7. Configurando o Autoscaling</h3>
+                        <h3>5. Configurando o Autoscaling</h3>
                         <p>
                             Abra um novo terminal e execute o comando abaixo para acompanhar o status:
                         </p>
@@ -653,7 +517,7 @@
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Hands-on</h2>
-                        <h3>7. Configurando o Autoscaling</h3>
+                        <h3>5. Configurando o Autoscaling</h3>
                         <p>
                             Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
                             realizar requisições simultâneas e execute:
@@ -668,58 +532,9 @@
                             Ajuste esses números para atender às especificações de sua máquina.
                         </p>
                     </section>
-
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>8. Dashboards do Istio</h3>
-                        <p>
-                            Instalando o
-                            <a href="https://istio.io/latest/docs/ops/integrations/kiali/"
-                               target="_blank" rel="noopener">Kiali</a> <em>(dashboard)</em>,
-                            <a href="https://istio.io/latest/docs/ops/integrations/prometheus/"
-                               target="_blank" rel="noopener">Prometheus</a> <em>(métricas)</em>,
-                            <a href="https://istio.io/latest/docs/ops/integrations/grafana/"
-                               target="_blank" rel="noopener">Grafana</a> <em>(monitoramento)</em> e
-                            <a href="https://istio.io/latest/docs/ops/integrations/jaeger/"
-                               target="_blank" rel="noopener">Jaeger</a> <em>(tracing distribuído)</em>:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- apply -f &lt;caminho-para-o-istio&gt;/samples/addons
-                            serviceaccount/grafana configured
-                            configmap/grafana configured
-                            service/grafana configured
-                            deployment.apps/grafana configured
-                            ...
-                        </code></pre>
-                        <p>
-                            Para abrir o Kiali no navegador, execute o comando abaixo e acesse o endereço informado:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ istioctl dashboard kiali
-                            http://localhost:20001/kiali
-                        </code></pre>
-                    </section>
-
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Hands-on</h2>
-                        <h3>8. Chaos Engineering no Istio</h3>
-                        <p>
-                            Aplique a regra abaixo:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- apply -f k8s/istio/gateway-delay.yml
-                        </code></pre>
-                        <p>
-                            E busque novamente os comentários, passando pelo API Gateway:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "http://${IP_GATEWAY}/comments"
-                        </code></pre>
-                        <em class="small fragment">Fault Injection: Delay</em>
-                    </section>
                 </section> <!-- Hands on -->
 
-                <section>
+                <section> <!-- Referências -->
                     <h1>Referências</h1>
                     <ul>
                         <li>
@@ -742,25 +557,29 @@
                                 Artigo: "Autoscaling in Kubernetes: A Primer on Autoscaling"
                             </a>
                         </li>
-                        <li>
-                            <a href="https://istio.io/" target="_blank" rel="noopener">
-                                istio.io
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.istiobyexample.dev/" target="_blank" rel="noopener">
-                                istiobyexample.dev
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.istioworkshop.io/" target="_blank" rel="noopener">
-                                istioworkshop.io
-                            </a>
-                        </li>
                     </ul>
-                </section>
+                </section> <!-- Referências -->
+
+                <section> <!-- Obrigado -->
+                    <h2 class="text-center">Obrigado!</h2>
+                    <br>
+                    <h4>LET'S CODE</h4>
+                    <div class="d-flex justify-between">
+                        <div class="small text-thin">
+                            Av. Faria Lima, 1306<br>
+                            4&ordm; andar
+                        </div>
+                        <div class="small text-thin text-right">
+                            (11) 2609-3807 <span class="small">&#x1F4DE;</span> <br>
+                            <a href="mailto:contato@letscode.com.br" class="text-black">
+                                contato@letscode.com.br &#9993;
+                            </a>
+                        </div>
+                    </div>
+                </section> <!-- Obrigado -->
             </div>
         </div>
+
         <script src="reveal.js/dist/reveal.js"></script>
         <script src="reveal.js/plugin/highlight/highlight.js"></script>
         <script>
