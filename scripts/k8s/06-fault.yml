@@ -10,15 +10,10 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /comments
-      fault:
-        delay:
-          percentage:
-            value: 100.0
-          fixedDelay: 5s
+            exact: /auth
       route:
         - destination:
-            host: comments-service
+            host: auth-service
             port:
               number: 3000
     - match:
@@ -32,8 +27,27 @@ spec:
     - match:
         - uri:
             prefix: /users
+      fault:
+        delay:
+          fixedDelay: 5s
+          percentage:
+            value: 33
+        abort:
+          httpStatus: 500
+          percentage:
+            value: 33
       route:
         - destination:
             host: users-service
             port:
               number: 3000
+    - match:
+        - uri:
+            exact: /composition
+      route:
+        - destination:
+            host: composition-service
+            port:
+              number: 3000
+      rewrite:
+        uri: '/'
