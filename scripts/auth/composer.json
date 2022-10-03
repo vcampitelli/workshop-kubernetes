@@ -1,0 +1,25 @@
+{
+    "name": "vcampitelli/kubernetes-auth",
+    "description": "Aplicação de autenticação para a palestra de Kubernetes",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vinícius Campitelli",
+            "email": "1877191+vcampitelli@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "process-timeout": 0,
+    "scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public/"
+    },
+    "require": {
+        "lcobucci/jwt": "5.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

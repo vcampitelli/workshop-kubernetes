@@ -32,8 +32,6 @@ spec:
             - containerPort: 3000
               protocol: TCP
           env:
-            - name: NODE_ENV
-              value: development
             - name: PORT
               value: "3000"
             - name: JWT_PRIVATE_KEY
@@ -47,6 +45,18 @@ spec:
                 secretKeyRef:
                   name: jwt-keys
                   key: public
+                  optional: false
+            - name: JWT_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: issuer
+                  optional: false
+            - name: JWT_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: audience
                   optional: false
   selector:
     matchLabels:
