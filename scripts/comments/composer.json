@@ -1,6 +1,6 @@
 {
-    "name": "vcampitelli/kubernetes-auth",
-    "description": "Aplicação de autenticação para a palestra de Kubernetes",
+    "name": "vcampitelli/kubernetes-posts",
+    "description": "Aplicação de postagens para a palestra de Kubernetes",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -18,7 +18,8 @@
         "start": "php -S 0.0.0.0:80 -t public/"
     },
     "require": {
-        "lcobucci/jwt": "5.0.x-dev"
+        "lcobucci/jwt": "5.0.x-dev",
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {

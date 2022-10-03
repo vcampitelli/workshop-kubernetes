@@ -17,12 +17,12 @@ class PasswordLogin
             'id'       => 1,
             'username' => 'admin',
             'password' => 'admin',
-            'scopes'   => ['users', 'posts'],
+            'scopes'   => ['posts', 'comments'],
         ],
         [
             'id'       => 2,
-            'username' => 'nousers',
-            'password' => 'nousers',
+            'username' => 'nocomments',
+            'password' => 'nocomments',
             'scopes'   => ['posts'],
         ],
     ];

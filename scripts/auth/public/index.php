@@ -3,17 +3,18 @@
 use App\Auth\BasicAuth;
 use App\Auth\PasswordLogin;
 use App\User;
+use Lcobucci\JWT\Token\RegisteredClaims;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 if (rtrim($_SERVER['REQUEST_URI'], '/') !== '/auth') {
     http_response_code(404);
-    die(2);
+    die();
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    die(1);
+    die();
 }
 
 $user = (function (array $server): ?User {
@@ -39,12 +40,8 @@ $user = (function (array $server): ?User {
 
 if (!$user) {
     http_response_code(401);
-    die(3);
+    die();
 }
-
-$_ENV['JWT_ISSUER'] = 'Vinícius Campitelli @ PHPeste';
-$_ENV['JWT_PRIVATE_KEY'] = 'LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR0hBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJHMHdhd0lCQVFRZ1VzY2d6Y3NQTEluMC9CT3oKbkE4RkFQaURkSjJDb0hTQmNVd2dNQjgvY1c2aFJBTkNBQVJtaENVa2dJdXZQejJMT2l1N1Y3WS9ESXJLM1NsdgpiU3JYOTRPVkFRd3pVVHdObUNidk1JVG43N0pFRVVaNXhvMFoxTnVzWUViTVpvbm12TnF3amdwegotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==';
-$_ENV['JWT_AUDIENCE'] = 'Kubernetes';
 
 $issuer = new App\Auth\JwtIssuer(
     $_ENV['JWT_ISSUER'],
@@ -52,10 +49,10 @@ $issuer = new App\Auth\JwtIssuer(
 );
 $token = $issuer($user, $_ENV['JWT_AUDIENCE']);
 
-header('Content-type: application/json');
+\header('Content-type: application/json');
 /** @var \DateTimeImmutable $expiration */
-$expiration = $token->claims()->get('exp');
+$expiration = $token->claims()->get(RegisteredClaims::EXPIRATION_TIME);
 echo json_encode([
     'access_token' => $token->toString(),
-    'expiration' => $expiration->format('c'),
+    'expiration'   => $expiration->format('c'),
 ]);

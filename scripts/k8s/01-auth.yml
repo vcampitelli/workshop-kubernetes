@@ -4,7 +4,7 @@ metadata:
   name: auth-service
 spec:
   ports:
-    - port: 3000
+    - port: 80
       name: http
       protocol: TCP
   selector:
@@ -29,11 +29,11 @@ spec:
           imagePullPolicy: Never
           ports:
             # pura documentação (caráter informativo), igual o EXPOSE do Dockerfile
-            - containerPort: 3000
+            - containerPort: 80
               protocol: TCP
           env:
             - name: PORT
-              value: "3000"
+              value: "80"
             - name: JWT_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:

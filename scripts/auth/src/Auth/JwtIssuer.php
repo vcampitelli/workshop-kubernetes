@@ -8,9 +8,9 @@ use App\User;
 use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Token\Builder;
 use Lcobucci\JWT\UnencryptedToken;
 
@@ -42,13 +42,14 @@ class JwtIssuer
     public function __invoke(User $user, string $audience): UnencryptedToken
     {
         $tokenBuilder = (new Builder(new JoseEncoder(), ChainedFormatter::default()));
-        $algorithm = new Sha256();
+        $algorithm = Sha256::create();
 
         $now = new DateTimeImmutable();
         return $tokenBuilder
             ->issuedBy($this->issuer)
             ->permittedFor($audience)
             ->issuedAt($now)
+            ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify('+1 hour'))
             ->relatedTo($user->username)
             ->withClaim('scopes', $user->scopes)

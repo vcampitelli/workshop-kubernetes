@@ -4,7 +4,7 @@ metadata:
   name: composition-service
 spec:
   ports:
-    - port: 3000
+    - port: 80
       name: http
       protocol: TCP
   selector:
@@ -28,22 +28,34 @@ spec:
           image: composition:0.0.1
           imagePullPolicy: Never
           ports:
-            - containerPort: 3000
+            - containerPort: 80
               protocol: TCP
           env:
             - name: NODE_ENV
               value: development
             - name: PORT
-              value: "3000"
+              value: "80"
             - name: APP_URL_POSTS
-              value: http://posts-service:3000/posts
+              value: http://posts-service:80/posts
             - name: APP_URL_USERS
-              value: http://users-service:3000/users
+              value: http://users-service:80/users
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-keys
                   key: public
+                  optional: false
+            - name: JWT_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: issuer
+                  optional: false
+            - name: JWT_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: audience
                   optional: false
   selector:
     matchLabels:
