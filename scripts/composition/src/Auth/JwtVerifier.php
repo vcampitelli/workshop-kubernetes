@@ -29,7 +29,7 @@ class JwtVerifier
     {
         $this->key = (\str_starts_with($publicKeyOrPath, 'file://'))
             ? InMemory::file(\substr($publicKeyOrPath, 7))
-            : InMemory::base64Encoded($publicKeyOrPath);
+            : InMemory::plainText($publicKeyOrPath);
     }
 
     /**

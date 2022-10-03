@@ -32,7 +32,7 @@ spec:
         - destination:
             host: auth-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             prefix: /posts
@@ -40,15 +40,15 @@ spec:
         - destination:
             host: posts-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
-            prefix: /users
+            prefix: /comments
       route:
         - destination:
-            host: users-service
+            host: comments-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             exact: /composition
@@ -56,6 +56,6 @@ spec:
         - destination:
             host: composition-service
             port:
-              number: 3000
+              number: 80
       rewrite:
         uri: '/'

@@ -30,7 +30,7 @@ class JwtIssuer
     {
         $this->signingKey = (\str_starts_with($privateKeyOrPath, 'file://'))
             ? InMemory::file(\substr($privateKeyOrPath, 7))
-            : InMemory::base64Encoded($privateKeyOrPath);
+            : InMemory::plainText($privateKeyOrPath);
     }
 
     /**

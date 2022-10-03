@@ -5,6 +5,11 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+if ((!empty($_SERVER['HTTP_X_FAIL'])) && (random_int(0, 1) === 1)) {
+    http_response_code(503);
+    die();
+}
+
 if (rtrim($_SERVER['REQUEST_URI'], '/') !== '/posts') {
     http_response_code(404);
     die();

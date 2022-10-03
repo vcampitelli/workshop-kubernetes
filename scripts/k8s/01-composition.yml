@@ -37,8 +37,8 @@ spec:
               value: "80"
             - name: APP_URL_POSTS
               value: http://posts-service:80/posts
-            - name: APP_URL_USERS
-              value: http://users-service:80/users
+            - name: APP_URL_COMMENTS
+              value: http://comments-service:80/comments
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

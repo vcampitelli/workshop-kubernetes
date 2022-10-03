@@ -2,7 +2,7 @@
 
 Clone este repositório com:
 ```sh
-git clone --recurse-submodules \
+git clone --recurse-submodules -b phpeste \
   git@github.com:vcampitelli/workshop-kubernetes.git
 ```
 

@@ -101,10 +101,10 @@
                     </section>
                     <section data-auto-animate>
                         <h2>Preparação</h2>
-                        <p>Para acompanhar o Workshop, siga os passos a seguir:</p>
+                        <p>Para acompanhar a palestra, siga os passos a seguir:</p>
                         <ol class="margin">
                             <li>
-                                Clone esse repositório
+                                Clone esse repositório:
                                 <pre><code class="shell" data-trim>
                                     $ git clone --recurse-submodules -b phpeste \
                                         git@github.com:vcampitelli/workshop-kubernetes.git
@@ -135,35 +135,6 @@
                     </section>
                 </section> <!-- Preparação -->
 
-                <section> <!-- Cronograma -->
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2>Cronograma</h2>
-                    </section>
-                    <section data-auto-animate>
-                        <h2>Cronograma</h2>
-                        <div class="schedule">
-                            <div class="fragment"><div>
-                                <p>Microsserviços &amp; Containers</p>
-                                <span>Teoria</span>
-                            </div></div>
-                            <div class="fragment"><div>
-                                <p>Kubernetes</p>
-                                <span>Teoria &amp; Hands-on</span>
-                            </div></div>
-                        </div>
-                        <div class="schedule">
-                            <div class="fragment"><div>
-                                <p>Service Mesh</p>
-                                <span>Teoria &amp; Hands-on</span>
-                            </div></div>
-                            <div class="fragment"><div>
-                                <p>Autoscaling</p>
-                                <span>Teoria &amp; Hands-on*</span>
-                            </div></div>
-                        </div>
-                    </section>
-                </section> <!-- Cronograma -->
-
                 <section> <!-- Introdução: microsserviços -->
                     <section data-auto-animate data-auto-animate-restart>
                         <h2>Microsserviços</h2>
@@ -180,7 +151,11 @@
                     </section>
                     <section>
                         <h2>Microsserviços</h2>
-                        <img src="https://www.embarcados.com.br/wp-content/uploads/2021/03/68747470733a2f2f7777772e78656e6f6e737461636b2e636f6d2f696d616765732f696e7369676874732f78656e6f6e737461636b2d776861742d6172652d6d6963726f73657276696365732e706e671.png">
+                        <img src="img/microsservicos.png" alt="Arquitetura de microsserviços">
+                        <br>
+                        <a href="https://embarcados.com.br/microservices/" class="small" target="_blank" rel="noopener">
+                            embarcados.com.br
+                        </a>
                     </section>
                 </section> <!-- Introdução: microsserviços -->
 
@@ -323,7 +298,7 @@
                     <section>
                         <h2 class="subtitle">Kubernetes</h2>
                         <h3>Hands-on</h3>
-                        <h4>Instalando minikube</h4>
+                        <h4>Instalando o minikube</h4>
                         <p>
                             Siga a documentação oficial em
                             <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener">
@@ -384,7 +359,7 @@
                         <pre><code class="shell" data-trim>
                             $ docker build -t auth:0.0.1 auth
                             $ docker build -t posts:0.0.1 posts
-                            $ docker build -t users:0.0.1 users
+                            $ docker build -t comments:0.0.1 comments
                             $ docker build -t composition:0.0.1 composition
                         </code></pre>
                     </section>
@@ -400,7 +375,7 @@
                                 -f k8s/00-jwt.yml \
                                 -f k8s/01-auth.yml \
                                 -f k8s/01-posts.yml \
-                                -f k8s/01-users.yml \
+                                -f k8s/01-comments.yml \
                                 -f k8s/01-composition.yml
                         </code></pre>
                     </section>
@@ -445,10 +420,10 @@
                             $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
                             auth-service          LoadBalancer   10.106.141.164   &lt;pending&gt;        3000:32110/TCP   5m
+                            comments-service      LoadBalancer   10.102.133.17    &lt;pending&gt;        3000:30921/TCP   5m
                             composition-service   LoadBalancer   10.99.218.84     &lt;pending&gt;        3000:32527/TCP   5m
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          5m
                             posts-service         LoadBalancer   10.106.220.106   &lt;pending&gt;        3000:32532/TCP   5m
-                            users-service         LoadBalancer   10.102.133.17    &lt;pending&gt;        3000:30921/TCP   5m
                         </code></pre>
                     </section>
                     <section data-auto-animate>
@@ -464,10 +439,10 @@
                             $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
                             auth-service          LoadBalancer   10.106.141.164   10.106.141.164   3000:32110/TCP   5m
+                            comments-service      LoadBalancer   10.102.133.17    10.102.133.17    3000:30921/TCP   5m
                             composition-service   LoadBalancer   10.99.218.84     10.99.218.84     3000:32527/TCP   5m
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          5m
                             posts-service         LoadBalancer   10.106.220.106   10.106.220.106   3000:32532/TCP   5m
-                            users-service         LoadBalancer   10.102.133.17    10.102.133.17    3000:30921/TCP   5m
                         </code></pre>
                     </section>
                     <section data-auto-animate>
@@ -480,9 +455,9 @@
                         </p>
                         <pre><code class="shell" data-trim data-noescape>
                             $ URL_AUTH=http://<em class="hljs-comment">10.106.141.164</em>:3000
+                            $ URL_COMMENTS=http://<em class="hljs-comment">10.102.133.17</em>:3000
                             $ URL_COMPOSITION=http://<em class="hljs-comment">10.99.218.84</em>:3000
                             $ URL_POSTS=http://<em class="hljs-comment">10.106.220.106</em>:3000
-                            $ URL_USERS=http://<em class="hljs-comment">10.102.133.17</em>:3000
                         </code></pre>
 
                         <p>
@@ -498,7 +473,7 @@
                         <h4>Acessando os serviços</h4>
 
                         <p>
-                            Para autenticar na aplicação, basta executar o comando abaixo:
+                            Para se autenticar na aplicação, execute o comando abaixo:
                         </p>
                         <pre><code class="shell" data-trim>
                             $ curl -X POST -u "admin:admin" "${URL_AUTH}/auth"
@@ -506,8 +481,8 @@
                         <p>Resultado:</p>
                         <pre><code class="json" data-trim>
                             {
-                              "status": true,
-                              "access_token": "eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW..."
+                              "access_token": "eyJhbGciOiJFUzI1NiJ9.eyJzY29wZXMiOlsidXNlcnMiLCJwb3N0cyIsImNvbW...",
+                              "expiration": "..."
                             }
                         </code></pre>
                     </section>
@@ -529,12 +504,12 @@
                         </code></pre>
 
                         <p>
-                            Teste os outros serviços:
+                            Teste os serviços:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMPOSITION}"
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_POSTS}/posts"
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_USERS}/users"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMMENTS}/comments"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMPOSITION}"
                         </code></pre>
                     </section>
                 </section> <!-- Hands-on -->
@@ -935,12 +910,12 @@
                         </p>
                         <pre><code class="shell" data-trim>
                             $ curl -L https://istio.io/downloadIstio | sh -
-                            $ cd istio-1.15.0
+                            $ cd istio-1.15.1
                             $ export PATH=$PWD/bin:$PATH
                         </code></pre>
                         <p class="smaller">
                             <em>
-                                Isso irá adicionar a pasta <code>istio-1.15.0/bin</code> em seu <code>$PATH</code>
+                                Isso irá adicionar a pasta <code>istio-1.15.1/bin</code> em seu <code>$PATH</code>
                                 temporariamente<br><br>
                                 Para fazer de forma permanente, você pode colocar o último comando
                                 (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
@@ -956,14 +931,11 @@
 
                         <p>
                             Adicione a <em>label</em> <code>istio-injection=enabled</code> no <em>namespace
-                            default</em>, indicando que queremos injetá-lo automaticamente em nossas aplicações
+                            default</em>, indicando que queremos injetá-lo automaticamente em todos os recursos da nossa
+                            aplicação, e instale o perfil <code>demo</code>:
                         </p>
                         <pre><code class="shell" data-trim>
                             $ minikube kubectl -- label namespace default istio-injection=enabled
-                        </code></pre>
-
-                        <p>Instale o perfil <code>demo</code>:</p>
-                        <pre><code class="shell" data-trim>
                             $ istioctl install --set profile=demo -y
                         </code></pre>
 
@@ -974,6 +946,14 @@
                                    target="_blank" rel="noopener">na documentação</a>
                             </em>
                         </p>
+
+                        <p>
+                            Vamos apagar os <em>pods</em> existentes para que quando o Kubernetes suba novos, o Istio
+                            possa injetar seus <em>proxies</em>:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- delete pods -l app
+                        </code></pre>
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Service Mesh</h2>
@@ -1016,9 +996,9 @@
                             Vamos testar o roteamento:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/composition"
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/posts"
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/users"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/comments"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/composition"
                         </code></pre>
                     </section>
 
@@ -1099,119 +1079,6 @@
                     </section>
                 </section> <!-- Hands-on: Service Mesh -->
 
-                <section> <!-- HPA -->
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2>Autoscaling</h2>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <blockquote>
-                            In Kubernetes, a HorizontalPodAutoscaler automatically updates a workload
-                            resource (such as a Deployment or StatefulSet), with the aim of automatically
-                            scaling the workload to match demand.
-                        </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
-                           class="small">kubernetes.io</a>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <blockquote>
-                            Horizontal scaling means that the response to increased load is to deploy more
-                            Pods. This is different from vertical scaling, which for Kubernetes would mean
-                            assigning more resources (for example: memory or CPU) to the Pods that are
-                            already running for the workload.
-                        </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
-                           class="small">kubernetes.io</a>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <blockquote>
-                            If the load decreases, and the number of Pods is above the configured minimum,
-                            the HorizontalPodAutoscaler instructs the workload resource (the Deployment,
-                            StatefulSet, or other similar resource) to scale back down.
-                            Horizontal pod autoscaling does not apply to objects that can't be scaled
-                            (for example: a DaemonSet.)
-                        </blockquote>
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
-                           class="small">kubernetes.io</a>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>HorizontalPodAutoscaler (HPA)</h3>
-                        <img src="img/hpa.png" alt="HorizontalPodAutoscaler">
-                        <br>
-                        <a href="https://aws.amazon.com/blogs/opensource/horizontal-pod-autoscaling-eks/" class="small"
-                           target="_blank" rel="noopener">aws.amazon.com</a>
-                    </section>
-                </section> <!-- HPA -->
-                <section> <!-- Hands-on: HPA -->
-                    <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>Hands-on</h3>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>Hands-on</h3>
-                        <h4>Configurando o Autoscaling</h4>
-                        <p>
-                            Ative o plugin de Metrics para coletar dados do uso de recursos:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube addons enable metrics-server
-                        </code></pre>
-
-                        <p>
-                            Abra um novo terminal e aplique a regra de Autoscaling:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- create -f k8s/07-hpa.yml
-                        </code></pre>
-
-                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
-                           class="small" target="_blank" rel="noopener">
-                            kubernetes.io/docs/tasks
-                        </a>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>Hands-on</h3>
-                        <h4>Configurando o Autoscaling</h4>
-                        <p>
-                            Abra um novo terminal e execute o comando abaixo para acompanhar o status:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ watch -n 1 "minikube kubectl -- get hpa"
-                        </code></pre>
-
-                        <p>Também é possível rodar este comando para visualizar o histórico de ações:</p>
-                        <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- describe hpa posts-hpa
-                        </code></pre>
-                    </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">Autoscaling</h2>
-                        <h3>Hands-on</h3>
-                        <h4>Configurando o Autoscaling</h4>
-                        <p>
-                            Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
-                            realizar requisições simultâneas e execute:
-                        </p>
-                        <pre><code class="shell" data-trim>
-                            $ wrk -t8 -c400 -d30s \
-                                -H "Authorization: Bearer ${TOKEN}" \
-                                "${URL_POSTS}/posts"
-                        </code></pre>
-                        <p class="smallest">
-                            PS: esse comando irá abrir 400 conexões distribuídas em 8 threads durante 30 segundos.<br>
-                            Ajuste esses números para atender às especificações de sua máquina.
-                        </p>
-                    </section>
-                </section> <!-- Hands-on: HPA -->
-
                 <section> <!-- Referências -->
                     <h2>Referências</h2>
                     <ul>
@@ -1228,12 +1095,6 @@
                         <li>
                             <a href="https://minikube.sigs.k8s.io/docs/" target="_blank" rel="noopener">
                                 minikube.sigs.k8s.io
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://medium.com/@SasidharSmit/autoscaling-in-kubernetes-a-primer-on-autoscaling-7b8f0f95a928"
-                               target="_blank" rel="noopener">
-                                Artigo: "Autoscaling in Kubernetes: A Primer on Autoscaling"
                             </a>
                         </li>
                         <li>
