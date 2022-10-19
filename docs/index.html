@@ -13,16 +13,24 @@
         <link rel="stylesheet" href="reveal.js/dist/theme/white.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Noto+Sans:wght@400;600&display=swap"
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&family=Ubuntu:wght@400;600&display=swap"
               rel="stylesheet">
         <link rel="stylesheet" href="css/app.css">
     </head>
     <body>
         <div class="reveal">
             <div class="slides">
-                <section class="first-slide">
+                <section class="first-slide has-dark-background">
                     <h1>Implementando microsserviços com <span>Kubernetes</span> na prática</h1>
-                    <h2><span>Vinícius Campitelli @ PHPeste 2022</span></h2>
+                    <h2>Vinícius Campitelli</h2>
+                </section>
+
+                <section class="text-center">
+                    <h2 class="mb-0">Slides</h2>
+                    <img src="img/qrcode.png" alt="Slides" class="r-stretch"><br>
+                    <a href="https://viniciuscampitelli.com/workshop-kubernetes/">
+                        viniciuscampitelli.com/workshop-kubernetes
+                    </a>
                 </section>
 
                 <section> <!-- Sobre mim -->
@@ -38,10 +46,6 @@
                             <ul class="margin margin-sm mb-1">
                                 <li>
                                     Membro do <a href="https://phpsp.org.br" target="_blank" rel="noopener">PHPSP</a>
-                                </li>
-                                <li>
-                                    Instrutor na
-                                    <a href="https://letscode.com.br" target="_blank" rel="noopener">Let's Code</a>
                                 </li>
                                 <li>Entusiasta em cibersegurança</li>
                                 <li>Desenvolvedor há 15 anos</li>
@@ -106,7 +110,7 @@
                             <li>
                                 Clone esse repositório:
                                 <pre><code class="shell" data-trim>
-                                    $ git clone --recurse-submodules -b phpeste \
+                                    $ git clone --recursive -b phpcs \
                                         git@github.com:vcampitelli/workshop-kubernetes.git
                                 </code></pre>
                             </li>
@@ -147,7 +151,9 @@
                             protocols are lightweight.
                         </blockquote>
                         <a href="https://en.wikipedia.org/wiki/microservices" class="small" target="_blank"
-                           rel="noopener">Wikipedia</a>
+                           rel="noopener">
+                            Wikipedia
+                        </a>
                     </section>
                     <section>
                         <h2>Microsserviços</h2>
@@ -173,7 +179,9 @@
                             applications and require fewer VMs and Operating systems.
                         </blockquote>
                         <a href="https://www.docker.com/resources/what-container/" class="small" target="_blank"
-                           rel="noopener">Docker</a>
+                           rel="noopener">
+                            Docker
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2>Containers</h2>
@@ -197,7 +205,9 @@
                             Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling,
                             and management of containerized applications.
                         </blockquote>
-                        <a href="https://kubernetes.io/" class="small" target="_blank" rel="noopener">kubernetes.io</a>
+                        <a href="https://kubernetes.io/" class="small" target="_blank" rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2>Kubernetes</h2>
@@ -206,13 +216,17 @@
                             <a href="https://www.cncf.io/projects/kubernetes/" target="_blank" rel="noopener">
                                 Cloud Native Computing Foundation
                             </a>, suporta diversos <em>runtimes</em> de execução de <em>containers</em>,
-                            como <a href="https://containerd.io/">containerd</a>,
-                            <a href="https://cri-o.io/">CRI-O</a> e qualquer implementação do
-                            <a href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI</a>
+                            como <a href="https://containerd.io/" target="_blank" rel="noopener">containerd</a>,
+                            <a href="https://cri-o.io/" target="_blank" rel="noopener">CRI-O</a> e qualquer
+                            implementação do
+                            <a href="https://kubernetes.io/docs/concepts/architecture/cri/" target="_blank"
+                               rel="noopener">CRI</a>
                         </p>
 
                         <a href="https://kubernetes.io/pt-br/docs/concepts/containers/" class="small" target="_blank"
-                           rel="noopener">kubernetes.io</a>
+                           rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2>Kubernetes</h2>
@@ -228,7 +242,7 @@
                         <h2 class="subtitle">Kubernetes</h2>
                         <h3>Pods</h3>
                         <blockquote>
-                            Pods are the smallest deployable units of computing that you can create and
+                            Pods are the smaller deployable units of computing that you can create and
                             manage in Kubernetes.
                         </blockquote>
                         <blockquote>
@@ -237,7 +251,9 @@
                             are always co-located and co-scheduled, and run in a shared context.
                         </blockquote>
                         <a href="https://kubernetes.io/docs/concepts/workloads/pods/" class="small" target="_blank"
-                           rel="noopener">kubernetes.io</a>
+                           rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                     <section>
                         <h2 class="subtitle">Kubernetes</h2>
@@ -251,7 +267,9 @@
                             and adopt all their resources with new Deployments.
                         </blockquote>
                         <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" class="small"
-                           target="_blank" rel="noopener">kubernetes.io</a>
+                           target="_blank" rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                     <section>
                         <h2 class="subtitle">Kubernetes</h2>
@@ -266,7 +284,9 @@
                             micro-service).
                         </blockquote>
                         <a href="https://kubernetes.io/docs/concepts/services-networking/service/" class="small"
-                           target="_blank" rel="noopener">kubernetes.io</a>
+                           target="_blank" rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                     <section>
                         <h2 class="subtitle">Kubernetes</h2>
@@ -285,7 +305,9 @@
                             a falhas e alta disponibilidade.
                         </blockquote>
                         <a href="https://kubernetes.io/pt-br/docs/concepts/overview/components/" class="small"
-                           target="_blank" rel="noopener">kubernetes.io</a>
+                           target="_blank" rel="noopener">
+                            kubernetes.io
+                        </a>
                     </section>
                 </section> <!-- Introdução: Kubernetes -->
 
@@ -324,7 +346,7 @@
                             Clone ou atualize este repositório:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ git clone --recurse-submodules -b phpeste \
+                            $ git clone --recursive -b phpcs \
                                 git@github.com:vcampitelli/workshop-kubernetes.git
                         </code></pre>
 
@@ -512,6 +534,64 @@
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMPOSITION}"
                         </code></pre>
                     </section>
+
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Kubernetes</h2>
+                        <h3>Hands-on</h3>
+                        <h4>Configurando o Autoscaling</h4>
+                        <p>
+                            Ative o plugin de Metrics para coletar dados do uso de recursos:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube addons enable metrics-server
+                        </code></pre>
+
+                        <p>
+                            Abra um novo terminal e aplique a regra de Autoscaling:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/02-hpa.yml
+                        </code></pre>
+
+                        <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/"
+                           class="small" target="_blank" rel="noopener">
+                            kubernetes.io/docs/tasks
+                        </a>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
+                        <h3>Hands-on</h3>
+                        <h4>Configurando o Autoscaling</h4>
+                        <p>
+                            Abra um novo terminal e execute o comando abaixo para acompanhar o status:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ watch -n 1 "minikube kubectl -- get hpa"
+                        </code></pre>
+
+                        <p>Também é possível rodar este comando para visualizar o histórico de ações:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- describe hpa posts
+                        </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
+                        <h3>Hands-on</h3>
+                        <h4>Configurando o Autoscaling</h4>
+                        <p>
+                            Baixe o <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> para
+                            realizar requisições simultâneas e execute:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ wrk -t4 -c400 -d30s \
+                                -H "Authorization: Bearer ${TOKEN}" \
+                                "${URL_POSTS}/posts"
+                        </code></pre>
+                        <p class="smaller">
+                            PS: esse comando irá abrir 400 conexões distribuídas em 4 threads durante 30 segundos.<br>
+                            Ajuste esses números para atender às especificações de sua máquina.
+                        </p>
+                    </section>
                 </section> <!-- Hands-on -->
 
                 <section> <!-- Service Mesh -->
@@ -525,7 +605,9 @@
                             um proxy
                         </blockquote>
                         <a href="https://en.wikipedia.org/wiki/service_mesh"
-                           class="small" target="_blank" rel="noopener">Wikipedia</a>
+                           class="small" target="_blank" rel="noopener">
+                            Wikipedia
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2>Service Mesh</h2>
@@ -534,7 +616,9 @@
                             também o fornecimento de informações comportamentais
                         </blockquote>
                         <a href="https://pt.wikipedia.org/wiki/malha_de_servi%c3%a7os"
-                           class="small" target="_blank" rel="noopener">Wikipedia</a>
+                           class="small" target="_blank" rel="noopener">
+                            Wikipedia
+                        </a>
                     </section>
                     <section>
                         <h2 class="subtitle">Service Mesh</h2>
@@ -853,7 +937,9 @@
                             applications
                         </blockquote>
                         <a href="https://istio.io/latest/about/service-mesh/#what-is-istio"
-                           class="smaller">istio.io</a>
+                           class="smaller">
+                            istio.io
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Service Mesh</h2>
@@ -910,12 +996,12 @@
                         </p>
                         <pre><code class="shell" data-trim>
                             $ curl -L https://istio.io/downloadIstio | sh -
-                            $ cd istio-1.15.1
+                            $ cd istio-1.15.2
                             $ export PATH=$PWD/bin:$PATH
                         </code></pre>
                         <p class="smaller">
                             <em>
-                                Isso irá adicionar a pasta <code>istio-1.15.1/bin</code> em seu <code>$PATH</code>
+                                Isso irá adicionar a pasta <code>istio-1.15.2/bin</code> em seu <code>$PATH</code>
                                 temporariamente<br><br>
                                 Para fazer de forma permanente, você pode colocar o último comando
                                 (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
@@ -963,11 +1049,13 @@
                             Vamos criar um <em>API Gateway</em> para fazer o roteamento dos nossos serviços:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- create -f k8s/02-gateway.yml
+                            $ minikube kubectl -- create -f k8s/03-gateway.yml
                         </code></pre>
 
                         <a href="https://istio.io/latest/docs/tasks/traffic-management/request-routing/" class="small"
-                           target="_blank" rel="noopener">istio.io</a>
+                           target="_blank" rel="noopener">
+                            istio.io
+                        </a>
                     </section>
                     <section data-auto-animate>
                         <h2 class="subtitle">Service Mesh</h2>
@@ -1009,7 +1097,7 @@
 
                         <p>Abra um novo terminal para aplicar as regras e acompanhar os <em>logs</em>:</p>
                         <pre><code class="shell" data-trim>
-                            $ minikube kubectl -- apply -f k8s/03-retry.yml
+                            $ minikube kubectl -- apply -f k8s/04-retry.yml
                             $ minikube kubectl -- logs -f deployments/posts-deployment
                         </code></pre>
 
@@ -1023,7 +1111,9 @@
                         </p>
 
                         <a href="https://istio.io/latest/docs/concepts/traffic-management/#timeouts" class="small"
-                           target="_blank" rel="noopener">istio.io</a>
+                           target="_blank" rel="noopener">
+                            istio.io
+                        </a>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
@@ -1034,7 +1124,7 @@
                         <p>Altere algo no sistema de postagens e gere uma nova versão do Docker e aplique as regras:</p>
                         <pre><code class="shell" data-trim>
                             $ docker build -t posts:0.0.2 posts
-                            $ minikube kubectl -- apply -f k8s/04-shifting.yml
+                            $ minikube kubectl -- apply -f k8s/05-shifting.yml
                         </code></pre>
 
                         <p>Faça requisições ao serviço e veja algumas indo para a nova versão:</p>
@@ -1043,13 +1133,278 @@
                         </code></pre>
 
                         <a href="https://istio.io/latest/docs/tasks/traffic-management/traffic-shifting/" class="small"
-                           target="_blank" rel="noopener">istio.io</a>
+                           target="_blank" rel="noopener">
+                            istio.io
+                        </a>
+                    </section>
+                </section> <!-- Hands-on: Service Mesh -->
+
+
+                <section> <!-- Chaos Engineering -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2>Chaos Engineering</h2>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Conceito</h3>
+                        <blockquote class="small mb-0">
+                            Processo de testar um sistema para garantir que ele pode resistir a interrupções
+                            inesperadas
+                        </blockquote>
+                        <a href="https://searchitoperations.techtarget.com/definition/chaos-engineering"
+                           class="small" target="_blank" rel="noopener">
+                            Tech Target
+                        </a>
+
+                        <blockquote class="small mb-0 mt-2">
+                            The best way to avoid failure is to fail constantly
+                        </blockquote>
+                        <a href="https://netflixtechblog.com/5-lessons-weve-learned-using-aws-1f2a28588e4c"
+                           class="small" target="_blank" rel="noopener">
+                            Netflix
+                        </a>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Conceito</h3>
+                        <p>
+                            Quebrar um sistema com a proposta de coletar informações que vão ajudar a melhorar a
+                            resiliência do sistema
+                        </p>
+                        <p>
+                            É uma abordagem de teste para software e garantia de qualidade, sendo adequado a
+                            sistemas distribuídos e processos modernos
+                        </p>
+                        <a href="https://searchitoperations.techtarget.com/definition/chaos-engineering"
+                           class="smaller" target="_blank" rel="noopener">
+                            Tech Target
+                        </a>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Conceito</h3>
+                        <p>
+                            Quanto maior e mais complexo o sistema, mais imprevisível e caótico será seu
+                            comportamento
+                        </p>
+                        <p>
+                            Estes experimentos geram intencionalmente condições turbulentas em um sistema distribuído
+                            para testá-lo e encontrar suas fraquezas
+                        </p>
+                        <a href="https://searchitoperations.techtarget.com/definition/chaos-engineering"
+                           class="smaller" target="_blank" rel="noopener">
+                            Tech Target
+                        </a>
+                    </section>
+
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Objetivo</h3>
+                        <p>
+                            Identificar fraquezas em um sistema através de experimentos controlados, que introduzem
+                            comportamentos randômicos e imprevisíveis
+                        </p>
+                        <a href="https://searchitoperations.techtarget.com/definition/chaos-engineering"
+                           class="smaller" target="_blank" rel="noopener">
+                            Tech Target
+                        </a>
                     </section>
 
                     <section data-auto-animate data-auto-animate-restart>
-                        <h2 class="subtitle">Service Mesh</h2>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Resultados possíveis</h3>
+
+                        <dl class="small ml-0 mb-1">
+                            <dt class="fragment" data-fragment-index="0">Pontos cegos</dt>
+                            <dd class="fragment" data-fragment-index="0">
+                                Locais onde o software de monitoramento não pode coletar dados adequados
+                            </dd>
+
+                            <dt class="fragment" data-fragment-index="1">Bugs escondidos</dt>
+                            <dd class="fragment" data-fragment-index="1">
+                                Falhas e outros problemas que podem causar mal funcionamento do software
+                            </dd>
+
+                            <dt class="fragment" data-fragment-index="2">Gargalos de performance</dt>
+                            <dd class="fragment" data-fragment-index="2">
+                                Situações nas quais eficiência e performance poderiam ser melhoradas
+                            </dd>
+                        </dl>
+                        <br>
+                        <a href="https://searchitoperations.techtarget.com/definition/chaos-engineering"
+                           class="smaller fragment" target="_blank" rel="noopener">
+                            Tech Target
+                        </a>
+                    </section>
+
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Ferramentas</h3>
+                        <dl class="small ml-0">
+                            <dt>
+                                <a href="https://github.com/Netflix/SimianArmy" target="_blank" rel="noopener"
+                                   class="fragment strike" data-fragment-index="0">
+                                    Simian Army
+                                </a> <span class="small red fragment" data-fragment-index="0">ARQUIVADO</span>
+                            </dt>
+                            <dd>Coleção de ferramentas lançada pela Netflix para automatizar testes de caos</dd>
+                            <dt>
+                                <a href="https://github.com/Netflix/chaosmonkey" target="_blank" rel="noopener">
+                                    Chaos Monkey
+                                </a>
+                            </dt>
+                            <dd>Desativa instâncias aleatoriamente causando falhas no sistema</dd>
+                            <dt>
+                                <a href="https://github.com/asobti/kube-monkey" target="_blank" rel="noopener">
+                                    Kube Monkey
+                                </a>
+                            </dt>
+                            <dd>Versão do <em>Chaos Monkey</em> para Kubernetes</dd>
+
+                            <dt>
+                                <a href="https://www.gremlin.com/" target="_blank" rel="noopener">Gremlin</a>
+                            </dt>
+                            <dd>
+                                Funciona com AWS e Kubernetes e para os experimentos se detectar riscos
+                            </dd>
+
+                            <dt>
+                                <a href="https://aws.amazon.com/fis/" target="_blank" rel="noopener">
+                                    AWS Fault Injection Simulator
+                                </a>
+                            </dt>
+                            <dd>
+                                Serviço totalmente gerenciado também com proteções para evitar problemas
+                            </dd>
+                        </dl>
+                    </section>
+                </section> <!-- Chaos Engineering -->
+
+                <section> <!-- Hands-on: Chaos Engineering -->
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
                         <h3>Hands-on</h3>
-                        <h4>Dashboards do Istio</h4>
+                    </section>
+
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Hands-on</h3>
+                        <p>Abra um novo terminal para acompanhar os logs:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- logs -f service/istio-ingressgateway -n istio-system
+                        </code></pre>
+
+                        <p>
+                            Volte ao terminal anterior, aplique a regra para adicionar <em>delay</em> e abortar
+                            requisições aleatoriamente e teste as postagens:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/06-fault.yml
+                            $ curl -I "${URL_GATEWAY}/posts"
+                        </code></pre>
+                        <p class="smaller font-italic">
+                            Nota: no Istio, não é possível injetar falha e utilizar <em>retry / timeout</em> no mesmo
+                            serviço (<a
+                                href="https://istio.io/latest/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected"
+                                target="_blank" rel="noopener">ver documentação</a>)
+                        </p>
+                    </section>
+                </section> <!-- Hands-on: Chaos Engineering -->
+
+                <section> <!-- Circuit Breaker -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2>Circuit Breaker</h2>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Circuit Breaker</h2>
+                        <h3>Conceito</h3>
+                        <blockquote class="small">
+                            Design pattern para criar microsserviços resilientes limitando o impacto de falhas e
+                            latências nos serviços
+                        </blockquote>
+                        <blockquote class="small">
+                            Um de seus objetivos básicos é lidar com falhas de forma graciosa para que não ocorram o
+                            cascateamento para outros serviços
+                        </blockquote>
+                        <blockquote class="small">
+                            Em um ambiente de microsserviços, falhar rapidamente é crítico
+                        </blockquote>
+                        <a href="https://dzone.com/articles/resilient-microservices-with-istio-circuit-breaker"
+                           class="smaller" target="_blank" rel="noopener">dzone.com</a>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Circuit Breaker</h2>
+                        <h3>Conceito</h3>
+                        <figure>
+                            <img src="img/disjuntor.png" alt="Disjuntor">
+                            <figcaption>
+                                <a href="https://www.diversitech.com/en-US/item/electrical-products/electrical-supplies/eaton-circuit-breakers---type-br--BR2100"
+                                   target="_blank" rel="noopener" class="small">
+                                    diversitech.com
+                                </a>
+                            </figcaption>
+                        </figure>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Circuit Breaker</h2>
+                        <h3>Conceito</h3>
+                        <figure>
+                            <img src="img/circuit-breaker.png" alt="Circuit Breaker">
+                            <figcaption>
+                                <a href="https://banzaicloud.com/blog/istio-circuit-breaking/" target="_blank"
+                                   rel="noopener" class="small">
+                                    banzaicloud.com
+                                </a>
+                            </figcaption>
+                        </figure>
+                    </section>
+                </section> <!-- Circuit Breaker -->
+
+                <section> <!-- Hands-on: Circuit Breaker -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Circuit Breaker</h2>
+                        <h3>Hands-on</h3>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Circuit Breaker</h2>
+                        <h3>Hands-on</h3>
+                        <p>
+                            Aplique a regra que irá evitar que o serviço de composição fique lento por causa de falhas
+                            na postagem:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/07-circuit-breaker.yml
+                            $ curl -H "X-Sleep-Fail: 1" -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/composition"
+                        </code></pre>
+                    </section>
+                </section> <!-- Hands-on: Circuit Breaker -->
+
+                <section> <!-- Observabilidade -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2>Observabilidade</h2>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Observabilidade</h2>
+                        <h3>Conceito</h3>
+                        <blockquote>
+                            Processo que usa ferramentas de software para detectar problemas, observando as entradas e
+                            saídas da pilha de tecnologia. As entradas incluem pilhas de aplicação e infraestrutura,
+                            enquanto as saídas incluem transações de negócios, experiências de usuário e desempenho de
+                            aplicações.
+                        </blockquote>
+                        <a href="https://www.cisco.com/c/pt_br/solutions/full-stack-observability/what-is-observability.html"
+                           target="_blank" rel="noopener">cisco.com</a>
+                    </section>
+                </section> <!-- Observabilidade -->
+
+                <section> <!-- Observabilidade -->
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Observabilidade</h2>
+                        <h3>Hands-on</h3>
+                    </section>
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Observabilidade</h2>
+                        <h3>Hands-on</h3>
                         <p>
                             Instalando o
                             <a href="https://istio.io/latest/docs/ops/integrations/kiali/"
@@ -1077,7 +1432,7 @@
                             http://localhost:20001/kiali
                         </code></pre>
                     </section>
-                </section> <!-- Hands-on: Service Mesh -->
+                </section> <!-- Observabilidade -->
 
                 <section> <!-- Referências -->
                     <h2>Referências</h2>
@@ -1114,6 +1469,24 @@
                         </li>
                     </ul>
                 </section> <!-- Referências -->
+
+                <section class="text-center"> <!-- QR Code Workshops -->
+                    <h2 class="b0">Workshops de TI</h2>
+                    <div class="d-flex half-columns">
+                        <div>
+                            Gostou? Então conheça meus treinamentos corporativos sobre Desenvolvimento, Segurança
+                            da Informação, DevOps, Arquitetura de Sistemas e diversos outros assuntos
+                        </div>
+                        <div class="text-center">
+                            <a href="https://bit.ly/vcampitelli-workshops" target="_blank" rel="noopener">
+                                <img src="img/qrcode-workshops.png" alt="Workshops">
+                            </a> <br>
+                        </div>
+                    </div>
+                    <a href="https://bit.ly/vcampitelli-workshops" target="_blank" rel="noopener">
+                        bit.ly/vcampitelli-workshops
+                    </a>
+                </section> <!-- QR Code Workshops -->
 
                 <section> <!-- Obrigado -->
                     <div class="d-flex">
@@ -1170,9 +1543,15 @@
         <script src="reveal.js/dist/reveal.js"></script>
         <script src="reveal.js/plugin/highlight/highlight.js"></script>
         <script>
+            Reveal.configure({
+              keyboard: {
+                38: 'prev',
+                40: 'next'
+              }
+            });
             Reveal.initialize({
                 hash: true,
-                mouseWheel: true,
+                mouseWheel: false,
                 plugins: [RevealHighlight]
             });
         </script>

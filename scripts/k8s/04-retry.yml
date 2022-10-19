@@ -15,7 +15,7 @@ spec:
         - destination:
             host: auth-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             exact: /posts
@@ -23,7 +23,7 @@ spec:
         - destination:
             host: posts-service
             port:
-              number: 3000
+              number: 80
       timeout: 3s
       retries:
         attempts: 3
@@ -31,12 +31,12 @@ spec:
         retryOn: 5xx
     - match:
         - uri:
-            exact: /users
+            exact: /comments
       route:
         - destination:
-            host: users-service
+            host: comments-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             exact: /composition
@@ -44,6 +44,6 @@ spec:
         - destination:
             host: composition-service
             port:
-              number: 3000
+              number: 80
       rewrite:
         uri: '/'

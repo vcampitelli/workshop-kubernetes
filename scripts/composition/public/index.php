@@ -69,15 +69,19 @@ if (\in_array('comments', $scopes)) {
 
 $curlMaster = \curl_multi_init();
 $handlers = [];
+$headers = [
+    "Authorization: {$_SERVER['HTTP_AUTHORIZATION']}",
+];
+if (!empty($_SERVER['X_SLEEP_FAIL'])) {
+    $headers[] = 'X-Sleep-Fail: 1';
+}
 foreach ($urls as $url) {
     $handler = \curl_init();
     \curl_setopt_array($handler, [
         CURLOPT_URL            => $url,
         CURLOPT_HEADER         => false,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => [
-            "Authorization: {$_SERVER['HTTP_AUTHORIZATION']}",
-        ],
+        CURLOPT_HTTPHEADER     => $headers,
     ]);
     $handlers[] = $handler;
     \curl_multi_add_handle($curlMaster, $handler);

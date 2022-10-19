@@ -15,11 +15,11 @@ spec:
           image: posts:0.0.2
           imagePullPolicy: Never
           ports:
-            - containerPort: 3000
+            - containerPort: 80
               protocol: TCP
           env:
             - name: PORT
-              value: "3000"
+              value: "80"
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
@@ -63,7 +63,7 @@ spec:
         - destination:
             host: auth-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             exact: /posts
@@ -71,23 +71,23 @@ spec:
         - destination:
             host: posts-service
             port:
-              number: 3000
+              number: 80
             subset: v1
           weight: 50
         - destination:
             host: posts-service
             port:
-              number: 3000
+              number: 80
             subset: v2
           weight: 50
     - match:
         - uri:
-            exact: /users
+            exact: /comments
       route:
         - destination:
-            host: users-service
+            host: comments-service
             port:
-              number: 3000
+              number: 80
     - match:
         - uri:
             exact: /composition
@@ -95,6 +95,6 @@ spec:
         - destination:
             host: composition-service
             port:
-              number: 3000
+              number: 80
       rewrite:
         uri: '/'

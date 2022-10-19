@@ -1,21 +1,21 @@
 :root {
   --r-background-color: #fff;
-  --r-main-font: "Noto Sans", sans-serif;
+  --r-main-font: Ubuntu, sans-serif;
   --r-main-font-size: 28px;
   --r-main-color: #333;
   --r-heading-font: var(--r-main-font);
   --r-heading-font-weight: 600;
-  --r-heading-color: #272932;
+  --r-heading-color: #044b64;
   --r-heading-letter-spacing: -2px;
   --r-heading-text-transform: none;
-  --r-code-font: "Fira Mono", monospace;
-  --r-link-color: #3371e3;
-  --r-link-color-hover: #6e99e9;
+  --r-code-font: "Ubuntu Mono", monospace;
+  --r-link-color: #6b519c;
+  --r-link-color-hover: #8b71bc;
   --r-link-color-dark: var(--r-link-color);
-  --r-accent-color: #f05d5e;
+  --r-accent-color: #d2112d;
   --r-code-hljs-bg-color: #272932;
-  --r-code-inline-bg-color: #fafafa;
-  --r-code-inline-color: #d8a47f;
+  --r-code-inline-bg-color: #f8f8f8;
+  --r-code-inline-color: var(--r-accent-color);
 }
 
 .reveal .slides {
@@ -33,8 +33,21 @@
   --r-heading2-size: 0.99em;
   border-left: 0;
   padding-left: 0;
-  color: #aaa;
+  color: #aaa !important;
   font-weight: 400;
+}
+.slide-background.first-slide {
+  background: #323640;
+}
+.slide-background.first-slide > .slide-background-content {
+  background: #323640 url(../img/phpcs2022-bg.jpg) center center / contain no-repeat;
+}
+.text-center > h2 {
+  border-left: 0;
+  padding-left: 0;
+}
+img.r-stretch {
+    margin: 0;
 }
 h2,
 h3 {
@@ -69,13 +82,25 @@ h5.subtitle {
   justify-content: space-between;
   align-items: center;
 }
+.d-flex.half-columns > div {
+    flex-basis: 50%;
+}
 .justify-around {
   justify-content: space-around;
+}
+figcaption > a:before,
+section > a:last-child:before {
+  content: "[";
+}
+figcaption > a:after,
+section > a:last-child:after {
+  content: "]";
 }
 pre.code-wrapper {
   margin-left: 0;
   margin-right: 0;
   width: 100%;
+  font-size: 0.75em;
 }
 .hljs {
   background: var(--r-code-hljs-bg-color);
@@ -113,9 +138,6 @@ code:not(.hljs) {
 }
 .smaller {
   font-size: 0.7em;
-}
-.smallest {
-  font-size: 0.6em;
 }
 .red {
   color: var(--r-accent-color);
