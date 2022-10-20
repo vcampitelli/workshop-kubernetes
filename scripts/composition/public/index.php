@@ -70,7 +70,10 @@ $handlers = [];
 $headers = [
     "Authorization: {$_SERVER['HTTP_AUTHORIZATION']}",
 ];
-if (!empty($_SERVER['X_SLEEP_FAIL'])) {
+if (!empty($_SERVER['HTTP_X_FAIL'])) {
+    $headers[] = 'X-Fail: 1';
+}
+if (!empty($_SERVER['HTTP_X_SLEEP_FAIL'])) {
     $headers[] = 'X-Sleep-Fail: 1';
 }
 foreach ($urls as $url) {

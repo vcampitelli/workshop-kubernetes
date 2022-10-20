@@ -18,13 +18,23 @@ spec:
             - containerPort: 80
               protocol: TCP
           env:
-            - name: PORT
-              value: "80"
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-keys
                   key: public
+                  optional: false
+            - name: JWT_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: issuer
+                  optional: false
+            - name: JWT_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: audience
                   optional: false
   selector:
     matchLabels:

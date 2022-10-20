@@ -1297,11 +1297,11 @@
 
                         <p>
                             Volte ao terminal anterior, aplique a regra para adicionar <em>delay</em> e abortar
-                            requisições aleatoriamente e teste as postagens:
+                            requisições aleatoriamente e teste os comentários:
                         </p>
                         <pre><code class="shell" data-trim>
                             $ minikube kubectl -- apply -f k8s/06-fault.yml
-                            $ curl -I "${URL_GATEWAY}/posts"
+                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/comments"
                         </code></pre>
                         <p class="smaller font-italic">
                             Nota: no Istio, não é possível injetar falha e utilizar <em>retry / timeout</em> no mesmo

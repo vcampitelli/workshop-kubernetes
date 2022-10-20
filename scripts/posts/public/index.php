@@ -10,6 +10,12 @@ if ((!empty($_SERVER['HTTP_X_FAIL'])) && (random_int(0, 1) === 1)) {
     die();
 }
 
+if (!empty($_SERVER['HTTP_X_SLEEP_FAIL'])) {
+    sleep(5);
+    http_response_code(504);
+    die();
+}
+
 if (rtrim($_SERVER['REQUEST_URI'], '/') !== '/posts') {
     http_response_code(404);
     die();
