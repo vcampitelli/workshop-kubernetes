@@ -53,6 +53,7 @@ if ((empty($scopes)) || (!\is_array($scopes)) || (!\in_array('comments', $scopes
     die();
 }
 
+\header('Content-type: application/json');
 $ch = \curl_init();
 \curl_setopt_array($ch, [
     CURLOPT_URL            => 'https://jsonplaceholder.typicode.com/comments',

@@ -29,9 +29,7 @@ $token = (function (array $server): ?string {
 
     $bearerAuth = new BearerAuth();
     return $bearerAuth($server['HTTP_AUTHORIZATION']);
-})(
-    $_SERVER
-);
+})($_SERVER);
 
 if (empty($token)) {
     http_response_code(401);

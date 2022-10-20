@@ -30,7 +30,6 @@ $token = (function (array $server): ?string {
 })($_SERVER);
 
 if (empty($token)) {
-    var_dump($_SERVER);
     http_response_code(401);
     die();
 }
@@ -59,6 +58,7 @@ if ((empty($scopes)) || (!\is_array($scopes)) || (!\in_array('posts', $scopes)))
     die();
 }
 
+\header('Content-type: application/json');
 $ch = \curl_init();
 \curl_setopt_array($ch, [
     CURLOPT_URL            => 'https://jsonplaceholder.typicode.com/posts',

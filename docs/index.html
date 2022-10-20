@@ -1124,6 +1124,7 @@
                         <p>Altere algo no sistema de postagens e gere uma nova versão do Docker e aplique as regras:</p>
                         <pre><code class="shell" data-trim>
                             $ docker build -t posts:0.0.2 posts
+                            $ minikube kubectl -- set image deployment/posts-deployment posts=posts:0.0.2
                             $ minikube kubectl -- apply -f k8s/05-shifting.yml
                         </code></pre>
 
