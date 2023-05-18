@@ -1,6 +1,6 @@
 :root {
   --r-background-color: #fff;
-  --r-main-font: Ubuntu, sans-serif;
+  --r-main-font: "Noto Sans", sans-serif;
   --r-main-font-size: 28px;
   --r-main-color: #333;
   --r-heading-font: var(--r-main-font);
@@ -8,7 +8,7 @@
   --r-heading-color: #044b64;
   --r-heading-letter-spacing: -2px;
   --r-heading-text-transform: none;
-  --r-code-font: "Ubuntu Mono", monospace;
+  --r-code-font: "Fira Mono", monospace;
   --r-link-color: #6b519c;
   --r-link-color-hover: #8b71bc;
   --r-link-color-dark: var(--r-link-color);
@@ -35,12 +35,6 @@
   padding-left: 0;
   color: #aaa !important;
   font-weight: 400;
-}
-.slide-background.first-slide {
-  background: #323640;
-}
-.slide-background.first-slide > .slide-background-content {
-  background: #323640 url(../img/phpcs2022-bg.jpg) center center / contain no-repeat;
 }
 .text-center > h2 {
   border-left: 0;
