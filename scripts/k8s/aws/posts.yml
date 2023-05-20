@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-service
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+  selector:
+    app: posts
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: posts
+        version: 0.0.1
+    spec:
+      containers:
+        - name: posts
+          image: "account-id.dkr.ecr.us-east-1.amazonaws.com/workshop-[SEU-USUARIO]"
+          imagePullPolicy: Always
+          ports:
+            # pura documentação (caráter informativo), igual o EXPOSE do Dockerfile
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: public
+                  optional: false
+            - name: JWT_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: issuer
+                  optional: false
+            - name: JWT_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-keys
+                  key: audience
+                  optional: false
+          resources:
+            limits:
+              memory: "128M"
+              cpu: "100m" # 10% de cada core de CPU - m -> millicore (1000m = 1.0 = 1 CPU)
+  selector:
+    matchLabels:
+      app: posts
+      version: 0.0.1

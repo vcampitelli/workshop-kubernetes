@@ -988,12 +988,12 @@
                         </p>
                         <pre><code class="shell" data-trim>
                             $ curl -L https://istio.io/downloadIstio | sh -
-                            $ cd istio-1.15.2
+                            $ cd istio-1.17.2
                             $ export PATH=$PWD/bin:$PATH
                         </code></pre>
                         <p class="smaller">
                             <em>
-                                Isso irá adicionar a pasta <code>istio-1.15.2/bin</code> em seu <code>$PATH</code>
+                                Isso irá adicionar a pasta <code>istio-1.17.2/bin</code> em seu <code>$PATH</code>
                                 temporariamente<br><br>
                                 Para fazer de forma permanente, você pode colocar o último comando
                                 (<code>export ...</code>) em algum arquivo de seu sistema que seja sempre carregado,
@@ -1427,6 +1427,405 @@
                     </section>
                 </section> <!-- Observabilidade -->
 
+                <section> <!-- AWS -->
+                    <section>
+                        <h2>AWS</h2>
+                    </section>
+
+                    <section>
+                        <h2 class="subtitle">AWS</h2>
+                        <h3>Serviços</h3>
+                        <p>
+                            Dentre os diversos provedores de <em>cloud</em> existentes <em>(sendo os três principais
+                            Amazon Web Services, Google Cloud Platform e Microsoft Azure)</em>, escolhi a AWS por sua
+                            menor complexidade e ampla aceitação no mercado
+                        </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">AWS</h2>
+                        <h3>Serviços</h3>
+                        <p>
+                            O Kubernetes foi criado inicialmente pelo Google, então o seu serviço
+                            <a href="https://cloud.google.com/kubernetes-engine/" target="_blank" rel="noopener">
+                                Google Kubernetes Engine (GKE)
+                            </a> é bastante recomendado
+                        </p>
+                        <p>
+                            Entretanto, acho o painel do Google Cloud um pouco confuso
+                        </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">AWS</h2>
+                        <h3>Serviços</h3>
+                        <p>Existem dois principais serviços na AWS para lidar com <em>clusters</em>:</p>
+                        <ul class="margin">
+                            <li class="fragment" data-fragment-index="0">
+                                <a href="https://aws.amazon.com/eks/" target="_blank" rel="noopener">
+                                    Elastic Kubernetes Services (EKS)</a>: implementação de <em>clusters</em> Kubernetes
+                                nos serviços da Amazon
+                            </li>
+                            <li class="fragment fade-in-then-semi-out">
+                                <a href="https://aws.amazon.com/ecs/" target="_blank" rel="noopener">
+                                    Elastic Container Services (ECS)</a>: serviço próprio da AWS para criação de
+                                <em>clusters</em> <em class="small">(ou seja, um produto &quot;alternativo&quot; ao
+                                Kubernetes)</em>
+                            </li>
+                        </ul>
+                        <p class="fragment smallest">
+                            Iremos utilizar o EKS, mas para saber mais sobre a diferença entre eles e qual utilizar,
+                            leia o artigo
+                            <a href="https://aws.amazon.com/blogs/containers/amazon-ecs-vs-amazon-eks-making-sense-of-aws-container-services/"
+                               target="_blank" rel="noopener">
+                                Amazon ECS vs Amazon EKS: making sense of AWS container services
+                            </a>
+                        </p>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">AWS</h2>
+                        <h3>Infrastructure as a Code</h3>
+                        <p>
+                            Usaremos o
+                            <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">
+                                AWS CloudFormation
+                            </a> para provisionar as nossas instâncias e a biblioteca <code>eksctl</code> para criar as
+                            <em>stacks</em> necessárias
+                        </p>
+                    </section>
+                </section>
+
+                <section> <!-- Hands-on na AWS -->
+                    <section>
+                        <h2 class="subtitle">AWS</h2>
+                        <h3>Hands-on</h3>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Instalação das ferramentas</h3>
+                        <ol class="margin margin-2x">
+                            <li>
+                                Instale as ferramentas <code>kubeadm</code>, <code>kubelet</code> e <code>kubectl</code>
+                                para gerenciar o <em>cluster</em> em
+                                <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/"
+                                   target="_blank" rel="noopener">
+                                    kubernetes.io/docs/setup
+                                </a>
+                            </li>
+                            <li>
+                                Instale o utilitário <code>aws</code> para comunicação com os serviços da Amazon em
+                                <a href="https://aws.amazon.com/cli/" target="_blank" rel="noopener">
+                                    aws.amazon.com/cli
+                                </a>
+                            </li>
+                            <li>
+                                Instale o <code>eksctl</code> para manuseio do <em>cluster</em> em
+                                <a href="https://eksctl.io/introduction/#installation" target="_blank" rel="noopener">
+                                    eksctl.io
+                                </a>
+                            </li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Autenticação</h3>
+                        <p>
+                            Para se comunicar com a AWS, crie o arquivo <code>~/.aws/credentials</code> e configure-o
+                            com as informações recebidas para seu usuário, como visto abaixo:
+                        </p>
+                        <pre><code class="ini" data-trim>
+                            [default]
+                            aws_access_key_id=Access Key recebida
+                            aws_secret_access_key=Secret Key recebida
+                            region=us-east-1
+                        </code></pre>
+                        <p class="small">
+                            Os usuários foram criados seguindo a recomendação
+                            <a href="https://eksctl.io/usage/minimum-iam-policies/" target="_blank" rel="noopener">
+                                Minimum IAM Policies
+                            </a> do <code>eksctl</code>
+                        </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Criação do cluster</h3>
+                        <pre data-id="eksctl"><code class="shell" data-trim>
+                            $ eksctl create cluster \
+                                --region us-east-1 \
+                                --zones &quot;us-east-1a,us-east-1b,us-east-1c,us-east-1d,us-east-1f&quot; \
+                                --node-type t2.medium \
+                                --nodes-min 1 \
+                                --nodes-max 3 \
+                                --with-oidc \
+                                --asg-access \
+                                --name workshop-&lt;USERNAME&gt;
+                        </code></pre>
+                        <p class="small">
+                            Essa operação demora até 30 minutos para completar, por isso já foi feita!
+                        </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Criação do cluster</h3>
+                        <pre data-id="eksctl"><code class="shell" data-trim>
+                            $ eksctl create cluster # ...
+                            2022-07-15 06:52:04 [ℹ]  eksctl version 0.105.0
+                            2022-07-15 06:52:04 [ℹ]  using region us-east-1
+                            2022-07-15 06:52:04 [ℹ]  subnets for us-east-1a - public:192.168.0.0/20 private:192.168.80.0/20
+                            2022-07-15 06:52:04 [ℹ]  subnets for us-east-1b - public:192.168.16.0/20 private:192.168.96.0/20
+                            2022-07-15 06:52:04 [ℹ]  subnets for us-east-1c - public:192.168.32.0/20 private:192.168.112.0/20
+                            2022-07-15 06:52:04 [ℹ]  subnets for us-east-1d - public:192.168.48.0/20 private:192.168.128.0/20
+                            2022-07-15 06:52:04 [ℹ]  subnets for us-east-1f - public:192.168.64.0/20 private:192.168.144.0/20
+                            2022-07-15 06:52:04 [ℹ]  nodegroup "ng-333b9ef5" will use "" [AmazonLinux2/1.22]
+                            2022-07-15 06:52:04 [ℹ]  using Kubernetes version 1.22
+                            2022-07-15 06:52:04 [ℹ]  creating EKS cluster "workshop-1" in "us-east-1" region with managed nodes
+                            2022-07-15 06:52:04 [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
+                            2022-07-15 06:52:04 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-east-1 --cluster=workshop-1'
+                            2022-07-15 06:52:04 [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "workshop-1" in "us-east-1"
+                            2022-07-15 06:52:04 [ℹ]  CloudWatch logging will not be enabled for cluster "workshop-1" in "us-east-1"
+                            2022-07-15 06:52:04 [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=us-east-1 --cluster=workshop-1'
+                            2022-07-15 06:52:04 [ℹ]
+                            2 sequential tasks: { create cluster control plane "workshop-1",
+                                2 sequential sub-tasks: {
+                                    4 sequential sub-tasks: {
+                                        wait for control plane to become ready,
+                                        associate IAM OIDC provider,
+                                        2 sequential sub-tasks: {
+                                            create IAM role for serviceaccount "kube-system/aws-node",
+                                            create serviceaccount "kube-system/aws-node",
+                                        },
+                                        restart daemonset "kube-system/aws-node",
+                                    },
+                                    create managed nodegroup "ng-333b9ef5",
+                                }
+                            }
+                            2022-07-15 06:52:04 [ℹ]  building cluster stack "eksctl-workshop-1-cluster"
+                            2022-07-15 06:52:07 [ℹ]  deploying stack "eksctl-workshop-1-cluster"
+                            2022-07-15 06:52:37 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-cluster"
+                            2022-07-15 07:05:21 [ℹ]  building iamserviceaccount stack "eksctl-workshop-1-addon-iamserviceaccount-kube-system-aws-node"
+                            2022-07-15 07:05:22 [ℹ]  deploying stack "eksctl-workshop-1-addon-iamserviceaccount-kube-system-aws-node"
+                            2022-07-15 07:05:22 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-addon-iamserviceaccount-kube-system-aws-node"
+                            2022-07-15 07:05:53 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-addon-iamserviceaccount-kube-system-aws-node"
+                            2022-07-15 07:05:53 [ℹ]  serviceaccount "kube-system/aws-node" already exists
+                            2022-07-15 07:05:53 [ℹ]  updated serviceaccount "kube-system/aws-node"
+                            2022-07-15 07:05:54 [ℹ]  daemonset "kube-system/aws-node" restarted
+                            2022-07-15 07:05:54 [ℹ]  building managed nodegroup stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:05:55 [ℹ]  deploying stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:05:55 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:06:26 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:07:05 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:08:36 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:09:32 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:10:58 [ℹ]  waiting for CloudFormation stack "eksctl-workshop-1-nodegroup-ng-333b9ef5"
+                            2022-07-15 07:10:58 [ℹ]  waiting for the control plane availability...
+                            2022-07-15 07:10:58 [✔]  saved kubeconfig as "/home/vcampitelli/.kube/config"
+                            2022-07-15 07:10:58 [ℹ]  no tasks
+                            2022-07-15 07:10:58 [✔]  all EKS cluster resources for "workshop-1" have been created
+                            2022-07-15 07:10:59 [ℹ]  nodegroup "ng-333b9ef5" has 1 node(s)
+                            2022-07-15 07:10:59 [ℹ]  node "ip-192-168-55-234.ec2.internal" is ready
+                            2022-07-15 07:10:59 [ℹ]  waiting for at least 1 node(s) to become ready in "ng-333b9ef5"
+                            2022-07-15 07:10:59 [ℹ]  nodegroup "ng-333b9ef5" has 1 node(s)
+                            2022-07-15 07:10:59 [ℹ]  node "ip-192-168-55-234.ec2.internal" is ready
+                            2022-07-15 07:11:00 [ℹ]  kubectl command should work with "/home/vcampitelli/.kube/config", try 'kubectl get nodes'
+                            2022-07-15 07:11:00 [✔]  EKS cluster "workshop-1" in "us-east-1" region is ready
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Criação do cluster</h3>
+                        <h4>Configuração do <code>kubectl</code></h4>
+                        <p>
+                            Ao criarmos o <em>cluster</em> no passo anterior, o <code>eksctl</code> irá automaticamente
+                            gerar o arquivo <code>~/.kube/config</code> <em>(responsável por fornecer as configurações
+                            ao <code>kubectl</code>)</em>
+                        </p>
+                        <p>
+                            Se você sobrescreveu este arquivo ou se o <em>cluster</em> não foi criado a partir da
+                            máquina atual que você irá executar o <code>kubectl</code>, você pode gerá-lo com:
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ eksctl utils write-kubeconfig --cluster &lt;nome&gt;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Criação do cluster</h3>
+                        <h4>Checagem</h4>
+                        <p>Para verificar os nós que foram criados, execute:</p>
+                        <pre><code class="shell" data-trim>
+                            $ kubectl get nodes
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Criação de chaves de criptografia</h3>
+                        <p>
+                            Iremos utilizar o
+                            <a href="https://aws.amazon.com/kms/" target="_blank" rel="noopener">
+                                Amazon Key Management Service (KMS)
+                            </a> para criptografar as imagens do Docker
+                        </p>
+                        <p>
+                            Para criar uma chave de criptografia, podemos utilizar o comando
+                            <code>aws kms create</code>, mas ele é um pouco complexo, então geralmente faremos isso via
+                            <em>interface</em>
+                        </p>
+                        <p>Você irá receber o ARN da chave que foi criada para seu usuário</p>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Imagens dos containers</h3>
+                        <p>
+                            Devemos fazer o build <em>build</em> das imagens do Docker necessárias e o <em>push</em>
+                            para o <a href="https://aws.amazon.com/ecr/" target="_blank" rel="noopener">
+                            Amazon Elastic Container Registry (ECR)</a>, que é o serviço de registro de imagens
+                        </p>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Imagens dos containers</h3>
+                        <h4>Criar repositório</h4>
+                        <pre><code class="shell" data-trim>
+                            $ export W_KMS=&lt;ARN-RECEBIDA&gt;
+                            $ export W_USERNAME=&lt;USERNAME&gt;
+                            $ export W_ACCOUNT=&lt;CONTA&gt;
+                            $ aws ecr create-repository \
+                                --repository-name workshop-${W_USERNAME} \
+                                --encryption-configuration encryptionType=KMS,kmsKey=${W_KMS}
+                            </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Imagens dos containers</h3>
+                        <h4>Push de imagens</h4>
+                        <pre data-id="pre"><code class="shell" data-trim>
+                            $ aws ecr get-login-password --region us-east-1 | \
+                                docker login --username AWS \
+                                --password-stdin ${W_ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com
+
+                            $ docker build -t workshop-${W_USERNAME} ${W_APP}/
+
+                            $ docker tag workshop-${W_USERNAME}:latest \
+                                ${W_ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com/workshop-${W_USERNAME}:latest
+
+                            $ docker push \
+                                ${W_ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com/workshop-${W_USERNAME}:latest
+                        </code></pre>
+                        <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html"
+                           target="_blank" rel="noopener" class="smaller">
+                            Amazon ECR: Pushing a Docker image
+                        </a>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Configuração do cluster</h3>
+                        <ol>
+                            <li>
+                                Edite o arquivo <code>k8s/aws/posts.yml</code> e:
+                                <ul class="margin margin-2x">
+                                    <li>
+                                        Substitua o caminho da imagem na linha 28 com a URL completa recebida após o
+                                        <code>push</code>
+                                    </li>
+                                    <li class="small">
+                                        Exemplo:<br>
+                                        <code>"1234567890.dkr.ecr.us-east-1.amazonaws.com/workshop-vinicius"</code>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Aplique as configurações via <code>kubectl</code>:
+                                <pre><code class="shell" data-trim>
+                                    $ kubectl create -f k8s/aws/posts.yml
+                                </code></pre>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Checagem</h3>
+                        <p>Para verificar os serviços e deployments criados, execute:</p>
+                        <pre><code class="shell" data-trim>
+                            $ kubectl get services
+                            $ kubectl get deployments
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Atualização da aplicação</h3>
+                        <p>
+                            Caso queira atualizar a aplicação, um novo <em>build</em> de imagens deve ser feito e um
+                            <code>kubectl rollout restart deployment</code> deve ser executado
+                        </p>
+                        <pre><code class="shell" data-trim>
+                            $ docker build -t workshop-${W_USERNAME} posts/
+
+                            $ docker tag workshop-${W_USERNAME}:latest \
+                                ${W_ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com/workshop-${W_USERNAME}:latest
+
+                            $ docker push \
+                                ${W_ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com/workshop-${W_USERNAME}:latest
+
+                            $ kubectl rollout restart deployment ${W_APP}-deployment
+                        </code></pre>
+                        <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment"
+                           target="_blank" rel="noopener" class="small">
+                            Kubernetes: Updating a Deployment
+                        </a>
+                    </section>
+                    <section data-auto-animate data-auto-animate-restart>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Bônus: Cluster Autoscaler</h3>
+                        <ol>
+                            <li>
+                                Siga os passos do artigo
+                                <a href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html"
+                                   target="_blank" rel="noopener">Cluster Autoscaler</a>
+                                <ul class="small">
+                                    <li>
+                                        Ao contrário do que diz o artigo, o <code>eksctl</code> não cria mais uma <em>role</em>
+                                        de AutoScaling, mas sim acopla uma <em>policy inline</em> com sufixo
+                                        <code>PolicyAutoScaling</code>
+                                    </li>
+                                    <li>
+                                        É preciso então criar uma <em>role</em> manualmente a partir da política
+                                        <em>inline</em> que foi acoplada ao <em>node</em>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Hands-on na AWS</h2>
+                        <h3>Bônus: Cluster Autoscaler</h3>
+                        <ol start="2" class="w-100">
+                            <li>
+                                Crie um <em>deployment</em>
+                                <pre><code class="shell" data-trim>
+                                    $ kubectl create -f k8s/cluster-autoscaler.yml
+                                </code></pre>
+                            </li>
+                            <li>
+                                Escale manualmente o <em>deployment</em>
+                                <pre><code class="shell" data-trim>
+                                    $ kubectl scale --replicas=10 deployment/nginx
+                                </code></pre>
+                            </li>
+                            <li>
+                                Acompanhe os logs do <em>autoscaler</em>
+                                <pre><code class="shell" data-trim>
+                                    $ kubectl -n kube-system logs -f deployment/cluster-autoscaler
+                                </code></pre>
+                            </li>
+                            <li>
+                                Em outro terminal, acompanhe os <em>pods</em>
+                                <pre><code class="shell" data-trim>
+                                    $ kubectl get pods -l app=nginx -o wide --watch
+                                </code></pre>
+                            </li>
+                        </ol>
+                    </section>
+                </section> <!-- Hands-on na AWS -->
+
+
                 <section> <!-- Referências -->
                     <h2>Referências</h2>
                     <ul>
@@ -1462,24 +1861,6 @@
                         </li>
                     </ul>
                 </section> <!-- Referências -->
-
-                <section class="text-center"> <!-- QR Code Workshops -->
-                    <h2 class="b0">Workshops de TI</h2>
-                    <div class="d-flex half-columns">
-                        <div>
-                            Gostou? Então conheça meus treinamentos corporativos sobre Desenvolvimento, Segurança
-                            da Informação, DevOps, Arquitetura de Sistemas e diversos outros assuntos
-                        </div>
-                        <div class="text-center">
-                            <a href="https://bit.ly/vcampitelli-workshops" target="_blank" rel="noopener">
-                                <img src="img/qrcode-workshops.png" alt="Workshops">
-                            </a> <br>
-                        </div>
-                    </div>
-                    <a href="https://bit.ly/vcampitelli-workshops" target="_blank" rel="noopener">
-                        bit.ly/vcampitelli-workshops
-                    </a>
-                </section> <!-- QR Code Workshops -->
 
                 <section> <!-- Obrigado -->
                     <div class="d-flex">
