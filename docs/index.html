@@ -124,7 +124,7 @@
                             <li>
                                 Entre na pasta <code>scripts</code> e execute:
                                 <pre><code class="shell" data-trim>
-                                    $ minikube start
+                                    $ minikube start --kubernetes-version=v1.26.3
                                 </code></pre>
                             </li>
                         </ol>
@@ -346,7 +346,7 @@
                             Entre na pasta <code>scripts</code> e inicialize o <em>cluster</em> com:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ minikube start
+                            $ minikube start --kubernetes-version=v1.26.3
                         </code></pre>
                     </section>
 
@@ -412,7 +412,7 @@
 
                         <p>
                             Como não há um serviço de <em>Load Balancing</em> no <code>minikube</code>, devemos expor os
-                            IPs dos serviços para eles serem acessados localmente
+                            IPs dos <em>services</em> para eles serem acessados localmente
                         </p>
                         <p>
                             Execute o comando abaixo em um novo terminal e mantenha-o rodando:
@@ -433,11 +433,11 @@
                         <pre data-id="pre"><code class="shell" data-trim>
                             $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
-                            auth-service          LoadBalancer   10.106.141.164   &lt;pending&gt;        3000:32110/TCP   5m
-                            comments-service      LoadBalancer   10.102.133.17    &lt;pending&gt;        3000:30921/TCP   5m
-                            composition-service   LoadBalancer   10.99.218.84     &lt;pending&gt;        3000:32527/TCP   5m
+                            auth-service          LoadBalancer   10.106.141.164   &lt;pending&gt;        80:32110/TCP     5m
+                            comments-service      LoadBalancer   10.102.133.17    &lt;pending&gt;        80:30921/TCP     5m
+                            composition-service   LoadBalancer   10.99.218.84     &lt;pending&gt;        80:32527/TCP     5m
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          5m
-                            posts-service         LoadBalancer   10.106.220.106   &lt;pending&gt;        3000:32532/TCP   5m
+                            posts-service         LoadBalancer   10.106.220.106   &lt;pending&gt;        80:32532/TCP     5m
                         </code></pre>
                     </section>
                     <section data-auto-animate>
@@ -452,11 +452,11 @@
                         <pre data-id="pre"><code class="shell" data-trim>
                             $ minikube kubectl -- get services
                             NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
-                            auth-service          LoadBalancer   10.106.141.164   10.106.141.164   3000:32110/TCP   5m
-                            comments-service      LoadBalancer   10.102.133.17    10.102.133.17    3000:30921/TCP   5m
-                            composition-service   LoadBalancer   10.99.218.84     10.99.218.84     3000:32527/TCP   5m
+                            auth-service          LoadBalancer   10.106.141.164   10.106.141.164   80:32110/TCP     5m
+                            comments-service      LoadBalancer   10.102.133.17    10.102.133.17    80:30921/TCP     5m
+                            composition-service   LoadBalancer   10.99.218.84     10.99.218.84     80:32527/TCP     5m
                             kubernetes            ClusterIP      10.96.0.1        &lt;none&gt;           443/TCP          5m
-                            posts-service         LoadBalancer   10.106.220.106   10.106.220.106   3000:32532/TCP   5m
+                            posts-service         LoadBalancer   10.106.220.106   10.106.220.106   80:32532/TCP     5m
                         </code></pre>
                     </section>
                     <section data-auto-animate>
@@ -468,10 +468,10 @@
                             Para facilitar, vamos guardar os IPs com as portas em variáveis:
                         </p>
                         <pre><code class="shell" data-trim data-noescape>
-                            $ URL_AUTH=http://<em class="hljs-comment">10.106.141.164</em>:3000
-                            $ URL_COMMENTS=http://<em class="hljs-comment">10.102.133.17</em>:3000
-                            $ URL_COMPOSITION=http://<em class="hljs-comment">10.99.218.84</em>:3000
-                            $ URL_POSTS=http://<em class="hljs-comment">10.106.220.106</em>:3000
+                            $ export URL_AUTH=http://<em class="hljs-comment">10.106.141.164</em>
+                            $ export URL_COMMENTS=http://<em class="hljs-comment">10.102.133.17</em>
+                            $ export URL_COMPOSITION=http://<em class="hljs-comment">10.99.218.84</em>
+                            $ export URL_POSTS=http://<em class="hljs-comment">10.106.220.106</em>
                         </code></pre>
 
                         <p>
@@ -516,14 +516,21 @@
                         <pre><code class="shell" data-trim>
                             $ eval $(./token.sh)
                         </code></pre>
+                    </section>
+                    <section data-auto-animate>
+                        <h2 class="subtitle">Kubernetes</h2>
+                        <h3>Hands-on</h3>
+                        <h4>Acessando os serviços</h4>
 
-                        <p>
-                            Teste os serviços:
-                        </p>
+                        <p>Teste os serviços:</p>
                         <pre><code class="shell" data-trim>
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_POSTS}/posts"
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMMENTS}/comments"
                             $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_COMPOSITION}"
+                        </code></pre>
+                        <p>Acompanhe os logs:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- logs -f -l app
                         </code></pre>
                     </section>
 
@@ -575,12 +582,12 @@
                             realizar requisições simultâneas e execute:
                         </p>
                         <pre><code class="shell" data-trim>
-                            $ wrk -t4 -c400 -d30s \
+                            $ wrk -t4 -c300 -d30s \
                                 -H "Authorization: Bearer ${TOKEN}" \
                                 "${URL_POSTS}/posts"
                         </code></pre>
-                        <p class="smaller">
-                            PS: esse comando irá abrir 400 conexões distribuídas em 4 threads durante 30 segundos.<br>
+                        <p class="small">
+                            PS: esse comando irá abrir 300 conexões distribuídas em 4 threads durante 30 segundos.<br>
                             Ajuste esses números para atender às especificações de sua máquina.
                         </p>
                     </section>
@@ -1065,7 +1072,7 @@
                             E mais uma vez, vamos salvar em uma variável para facilitar o uso:
                         </p>
                         <pre><code class="shell" data-trim data-noescape>
-                            $ URL_GATEWAY=http://<em class="hljs-comment">10.101.22.8</em>
+                            $ export URL_GATEWAY=http://<em class="hljs-comment">10.101.22.8</em>
                         </code></pre>
                     </section>
                     <section data-auto-animate>
@@ -1090,7 +1097,7 @@
                         <p>Abra um novo terminal para aplicar as regras e acompanhar os <em>logs</em>:</p>
                         <pre><code class="shell" data-trim>
                             $ minikube kubectl -- apply -f k8s/04-retry.yml
-                            $ minikube kubectl -- logs -f deployments/posts-deployment
+                            $ minikube kubectl -- logs -f -l "app=posts"
                         </code></pre>
 
                         <p>Volte ao terminal anterior e faça consultas simulando falhas intermitentes:</p>
@@ -1116,13 +1123,13 @@
                         <p>Altere algo no sistema de postagens e gere uma nova versão do Docker e aplique as regras:</p>
                         <pre><code class="shell" data-trim>
                             $ docker build -t posts:0.0.2 posts
-                            $ minikube kubectl -- set image deployment/posts-deployment posts=posts:0.0.2
                             $ minikube kubectl -- apply -f k8s/05-shifting.yml
                         </code></pre>
 
                         <p>Faça requisições ao serviço e veja algumas indo para a nova versão:</p>
                         <pre><code class="shell" data-trim>
-                            $ curl -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/posts"
+                            $ curl -s -D- -H "Authorization: Bearer ${TOKEN}" -o /dev/null \
+                                "${URL_GATEWAY}/posts"
                         </code></pre>
 
                         <a href="https://istio.io/latest/docs/tasks/traffic-management/traffic-shifting/" class="small"
@@ -1298,9 +1305,18 @@
                         <p class="smaller font-italic">
                             Nota: no Istio, não é possível injetar falha e utilizar <em>retry / timeout</em> no mesmo
                             serviço (<a
-                                href="https://istio.io/latest/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected"
+                                href="https://istio.io/latest/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected"
                                 target="_blank" rel="noopener">ver documentação</a>)
                         </p>
+                    </section>
+
+                    <section>
+                        <h2 class="subtitle">Chaos Engineering</h2>
+                        <h3>Hands-on</h3>
+                        <p>Reaplique a regra padrão do API Gateway para desconsiderar as falhas:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- apply -f k8s/03-gateway.yml
+                        </code></pre>
                     </section>
                 </section> <!-- Hands-on: Chaos Engineering -->
 
@@ -1367,7 +1383,12 @@
                         </p>
                         <pre><code class="shell" data-trim>
                             $ minikube kubectl -- apply -f k8s/07-circuit-breaker.yml
-                            $ curl -H "X-Sleep-Fail: 1" -H "Authorization: Bearer ${TOKEN}" "${URL_GATEWAY}/composition"
+                            $ curl -D- -H "X-Sleep-Fail: 1" -H "Authorization: Bearer ${TOKEN}" \
+                                "${URL_GATEWAY}/composition"
+                        </code></pre>
+                        <p>Acompanhe em um outro terminal:</p>
+                        <pre><code class="shell" data-trim>
+                            $ minikube kubectl -- logs -f -l app
                         </code></pre>
                     </section>
                 </section> <!-- Hands-on: Circuit Breaker -->
@@ -1429,11 +1450,11 @@
 
                 <section> <!-- AWS -->
                     <section>
-                        <h2>AWS</h2>
+                        <h2>Kubernetes na Cloud</h2>
                     </section>
 
                     <section>
-                        <h2 class="subtitle">AWS</h2>
+                        <h2 class="subtitle">Kubernetes na Cloud</h2>
                         <h3>Serviços</h3>
                         <p>
                             Dentre os diversos provedores de <em>cloud</em> existentes <em>(sendo os três principais
@@ -1442,7 +1463,7 @@
                         </p>
                     </section>
                     <section data-auto-animate>
-                        <h2 class="subtitle">AWS</h2>
+                        <h2 class="subtitle">Kubernetes na Cloud</h2>
                         <h3>Serviços</h3>
                         <p>
                             O Kubernetes foi criado inicialmente pelo Google, então o seu serviço
@@ -1450,12 +1471,13 @@
                                 Google Kubernetes Engine (GKE)
                             </a> é bastante recomendado
                         </p>
-                        <p>
-                            Entretanto, acho o painel do Google Cloud um pouco confuso
+                        <p class="fragment">
+                            Entretanto, eu acho o painel do Google Cloud um pouco confuso e, por isso, vou demonstrar
+                            como usar Kubernetes na Amazon Web Services
                         </p>
                     </section>
-                    <section data-auto-animate>
-                        <h2 class="subtitle">AWS</h2>
+                    <section>
+                        <h2 class="subtitle">Kubernetes na AWS</h2>
                         <h3>Serviços</h3>
                         <p>Existem dois principais serviços na AWS para lidar com <em>clusters</em>:</p>
                         <ul class="margin">
@@ -1481,7 +1503,7 @@
                         </p>
                     </section>
                     <section>
-                        <h2 class="subtitle">AWS</h2>
+                        <h2 class="subtitle">Kubernetes na AWS</h2>
                         <h3>Infrastructure as a Code</h3>
                         <p>
                             Usaremos o
@@ -1495,7 +1517,7 @@
 
                 <section> <!-- Hands-on na AWS -->
                     <section>
-                        <h2 class="subtitle">AWS</h2>
+                        <h2 class="subtitle">Kubernetes na AWS</h2>
                         <h3>Hands-on</h3>
                     </section>
                     <section>
@@ -1917,12 +1939,6 @@
         <script src="reveal.js/dist/reveal.js"></script>
         <script src="reveal.js/plugin/highlight/highlight.js"></script>
         <script>
-            Reveal.configure({
-              keyboard: {
-                38: 'prev',
-                40: 'next'
-              }
-            });
             Reveal.initialize({
                 hash: true,
                 mouseWheel: false,

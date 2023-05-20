@@ -64,6 +64,7 @@ if ((empty($scopes)) || (!\is_array($scopes)) || (!\in_array('posts', $scopes)))
     die();
 }
 
+\header('X-App-Version: 0.0.1');
 \header('Content-type: application/json');
 $ch = \curl_init();
 \curl_setopt_array($ch, [

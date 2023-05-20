@@ -31,11 +31,11 @@ spec:
         delay:
           fixedDelay: 5s
           percentage:
-            value: 33
+            value: 50
         abort:
           httpStatus: 500
           percentage:
-            value: 33
+            value: 50
       route:
         - destination:
             host: comments-service
